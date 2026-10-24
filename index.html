@@ -1,65 +1,624 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0d12"><meta name="description" content="Indian market monitor for Nifty, Bank Nifty, Sensex, gap scenarios and conditional trading levels.">
-<link rel="manifest" href="manifest.webmanifest"><title>India Market Monitor</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0d12">
+<meta name="description" content="India Market Monitor educational dashboard">
+<link rel="manifest" href="manifest.webmanifest">
+<title>India Market Monitor</title>
+
 <style>
-:root{color-scheme:dark;--bg:#090c11;--panel:#121821;--line:#27313d;--muted:#91a0b1;--txt:#edf2f8;--green:#38d6a0;--red:#ff6979;--amber:#f2c96d;--blue:#8bb7ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}header{padding:17px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:#0d1219;position:sticky;top:0;z-index:3}.brand{display:flex;align-items:center;gap:10px}.logo{width:40px;height:40px;border:1px solid #b89b52;border-radius:12px;display:grid;place-items:center;color:var(--amber);font-size:23px}.brand h1{font-size:17px;margin:0}.brand p{font-size:11px;color:var(--muted);margin:2px 0 0}.status{font-size:11px;border:1px solid #66552b;color:var(--amber);padding:6px 9px;border-radius:99px}main{max-width:1200px;margin:auto;padding:14px;display:grid;gap:13px}.warning{padding:11px 13px;background:#241e10;border:1px solid #625127;color:#e9d9aa;border-radius:11px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.two{display:grid;grid-template-columns:1.1fr .9fr;gap:10px}.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#aebaca;margin:0 0 12px}.muted{color:var(--muted);font-size:11px}.name{color:var(--muted);font-size:12px}.price{font-size:25px;font-weight:800;margin:4px 0}.red{color:var(--red)}.green{color:var(--green)}.amber{color:var(--amber)}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #222c38}.row:last-child{border:0}.pill{border:1px solid var(--line);padding:4px 7px;border-radius:99px;font-size:10px}.gauge{height:10px;border-radius:99px;background:linear-gradient(90deg,#b92e42,#e96e73,#66717e,#2bab7e,#36d7a0);position:relative;margin:20px 0 10px}.needle{position:absolute;left:38%;top:-5px;height:20px;width:3px;border-radius:3px;background:white}.score{font-size:28px;font-weight:800}.bias{font-size:20px;font-weight:800;margin:3px 0 8px}.pred{font-size:18px;font-weight:800}.box{background:#0c1118;border:1px solid #26313e;border-radius:10px;padding:10px;margin-top:9px}.btns{display:flex;gap:7px;flex-wrap:wrap}button{border:1px solid #364454;background:#202b38;color:var(--txt);padding:9px 11px;border-radius:9px;font-weight:600}button:active{transform:scale(.98)}input,select{background:#0a1017;color:var(--txt);border:1px solid #344050;border-radius:8px;padding:9px;max-width:100%}.formrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.formrow input{flex:1;min-width:125px}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;padding:9px 5px;border-bottom:1px solid #27313d}th{color:var(--muted);font-weight:500}.foot{text-align:center;color:var(--muted);font-size:10px;padding:10px}.hidden{display:none}
-@media(max-width:780px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two,.three{grid-template-columns:1fr}.price{font-size:22px}}@media(max-width:380px){main{padding:9px}.card{padding:11px}.brand h1{font-size:14px}.price{font-size:20px}}
+:root {
+  color-scheme: dark;
+  --bg: #090c11;
+  --panel: #121821;
+  --line: #27313d;
+  --muted: #91a0b1;
+  --txt: #edf2f8;
+  --green: #38d6a0;
+  --red: #ff6979;
+  --amber: #f2c96d;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--txt);
+  font: 14px/1.45 system-ui, Arial, sans-serif;
+}
+
+header {
+  padding: 17px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  background: #0d1219;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #b89b52;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--amber);
+  font-size: 23px;
+}
+
+.brand h1 { font-size: 17px; margin: 0; }
+.brand p { font-size: 11px; color: var(--muted); margin: 2px 0 0; }
+
+.status {
+  font-size: 11px;
+  border: 1px solid #66552b;
+  color: var(--amber);
+  padding: 6px 9px;
+  border-radius: 99px;
+}
+
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px;
+  display: grid;
+  gap: 13px;
+}
+
+.warning {
+  padding: 11px 13px;
+  background: #241e10;
+  border: 1px solid #625127;
+  color: #e9d9aa;
+  border-radius: 11px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 10px;
+}
+
+.three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  min-width: 0;
+}
+
+.card h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #aebaca;
+  margin: 0 0 12px;
+}
+
+.muted { color: var(--muted); font-size: 11px; }
+.name { color: var(--muted); font-size: 12px; }
+.price { font-size: 25px; font-weight: 800; margin: 4px 0; }
+.red { color: var(--red); }
+.green { color: var(--green); }
+.amber { color: var(--amber); }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #222c38;
+}
+
+.row:last-child { border: 0; }
+
+.pill {
+  border: 1px solid var(--line);
+  padding: 4px 7px;
+  border-radius: 99px;
+  font-size: 10px;
+}
+
+.gauge {
+  height: 10px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg, #b92e42, #e96e73, #66717e, #2bab7e, #36d7a0
+  );
+  position: relative;
+  margin: 20px 0 10px;
+}
+
+.needle {
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  height: 20px;
+  width: 3px;
+  border-radius: 3px;
+  background: white;
+}
+
+.score { font-size: 28px; font-weight: 800; }
+.bias { font-size: 20px; font-weight: 800; margin: 3px 0 8px; }
+.pred { font-size: 18px; font-weight: 800; }
+
+.box {
+  background: #0c1118;
+  border: 1px solid #26313e;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 9px;
+}
+
+.btns, .formrow { display: flex; gap: 8px; flex-wrap: wrap; }
+
+button {
+  border: 1px solid #364454;
+  background: #202b38;
+  color: var(--txt);
+  padding: 9px 11px;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled { opacity: .6; }
+
+input {
+  background: #0a1017;
+  color: var(--txt);
+  border: 1px solid #344050;
+  border-radius: 8px;
+  padding: 9px;
+  max-width: 100%;
+}
+
+.formrow { margin-top: 8px; }
+.formrow input { flex: 1; min-width: 125px; }
+
+.foot {
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  padding: 10px;
+}
+
+.hidden { display: none; }
+
+@media (max-width: 780px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .two, .three { grid-template-columns: 1fr; }
+  .price { font-size: 22px; }
+}
+
+@media (max-width: 380px) {
+  main { padding: 9px; }
+  .card { padding: 11px; }
+  .brand h1 { font-size: 14px; }
+  .price { font-size: 20px; }
+}
 </style>
 </head>
+
 <body>
-<header><div class="brand"><div class="logo">⌁</div><div><h1>India Market Monitor</h1><p>Nifty · Bank Nifty · Sensex · Conditional CE/PE setups</p></div></div><div class="btns"><span class="status" id="feedStatus">DEMO DATA</span><button id="installBtn" class="hidden">Install app</button></div></header>
+<header>
+  <div class="brand">
+    <div class="logo">⌁</div>
+    <div>
+      <h1>India Market Monitor</h1>
+      <p>Nifty · Bank Nifty · Sensex · Market overview</p>
+    </div>
+  </div>
+  <div class="btns">
+    <span class="status" id="feedStatus">DEMO DATA</span>
+    <button id="installBtn" class="hidden">Install app</button>
+  </div>
+</header>
+
 <main>
-<div class="warning"><b>Important:</b> demo mode is active until a real provider is configured. Example values below are NOT current quotes or trading advice. Do not trade from demo values.</div>
-<section class="grid">
-<div class="card"><div class="name">NIFTY 50</div><div class="price" id="nifty">—</div><div id="niftyChg" class="muted">Awaiting data</div><div class="row"><span class="muted">Feed timestamp</span><span class="pill" id="niftyTime">—</span></div></div>
-<div class="card"><div class="name">BANK NIFTY</div><div class="price" id="bank">—</div><div id="bankChg" class="muted">Awaiting data</div><div class="row"><span class="muted">Feed timestamp</span><span class="pill" id="bankTime">—</span></div></div>
-<div class="card"><div class="name">SENSEX</div><div class="price" id="sensex">—</div><div id="sensexChg" class="muted">Awaiting data</div><div class="row"><span class="muted">Feed timestamp</span><span class="pill" id="sensexTime">—</span></div></div>
-<div class="card"><div class="name">INDIA VIX</div><div class="price" id="vix">—</div><div id="vixChg" class="muted">Awaiting data</div><div class="row"><span class="muted">Data quality</span><span class="pill" id="quality">Unverified</span></div></div>
-</section>
-<section class="two">
-<div class="card"><h2>Next session gap scenarios</h2><div class="muted">Scenario ranges only; forecast must use fresh overnight inputs.</div>
-<div class="row"><div><b>Nifty 50</b><div class="muted">Estimated open range</div></div><div style="text-align:right"><div class="pred" id="niftyGap">Awaiting feed</div><div class="muted" id="niftyPts">—</div></div></div>
-<div class="row"><div><b>Bank Nifty</b><div class="muted">Estimated open range</div></div><div style="text-align:right"><div class="pred" id="bankGap">Awaiting feed</div><div class="muted" id="bankPts">—</div></div></div>
-<div class="row"><div><b>Sensex</b><div class="muted">Estimated open range</div></div><div style="text-align:right"><div class="pred" id="sensexGap">Awaiting feed</div><div class="muted" id="sensexPts">—</div></div></div>
-<div class="box muted">Gap model inputs: previous close, GIFT Nifty, global indices, USD/INR, crude, volatility, news and pre-open indications. Missing inputs must lower confidence—not be guessed.</div></div>
-<div class="card"><h2>Market sentiment</h2><div class="muted">Weighted score −100 to +100</div><div class="gauge"><div class="needle" id="needle"></div></div><div class="score amber" id="score">N/A</div><div class="bias amber" id="bias">Waiting for data</div><div class="muted">Sentiment must be calculated from current inputs.</div><div class="row"><span>GIFT Nifty</span><b id="gift">Not connected</b></div><div class="row"><span>Global cues</span><b id="global">Not connected</b></div><div class="row"><span>FII / DII flows</span><b id="flows">Not connected</b></div><div class="row"><span>Market breadth</span><b id="breadth">Not connected</b></div></div>
-</section>
-<section class="three">
-<div class="card"><h2>Conditional trading setups</h2><div class="row"><span>CE / CALL</span><b class="green">Only after bullish confirmation</b></div><div class="row"><span>PE / PUT</span><b class="red">Only after bearish confirmation</b></div><div class="row"><span>No-trade</span><b class="amber">Use if signals conflict</b></div><div class="box muted">Entry/targets/SL will appear only after valid data and rules are configured. Never assume a setup is active.</div></div>
-<div class="card"><h2>Key levels</h2><div class="row"><span>Nifty support</span><b id="ns">Not calculated</b></div><div class="row"><span>Nifty resistance</span><b id="nr">Not calculated</b></div><div class="row"><span>Bank Nifty support</span><b id="bs">Not calculated</b></div><div class="row"><span>Bank Nifty resistance</span><b id="br">Not calculated</b></div><div class="muted">Calculated from verified candles / pivots after integration.</div></div>
-<div class="card"><h2>Global / commodity cues</h2><div class="row"><span>Nasdaq / S&P 500</span><b id="us">Not connected</b></div><div class="row"><span>Asian indices</span><b id="asia">Not connected</b></div><div class="row"><span>Brent crude</span><b id="crude">Not connected</b></div><div class="row"><span>USD/INR</span><b id="fx">Not connected</b></div><div class="muted">Global feeds may have different exchange hours and delays.</div></div>
-</section>
-<section class="two">
-<div class="card"><h2>Data connection settings</h2><div class="muted">Enter a backend URL only after you deploy your own secure API proxy. Never paste a secret API token into this page.</div><div class="formrow"><input id="apiUrl" placeholder="https://your-server.example/api/market" aria-label="Backend API URL"><button id="connectBtn">Connect</button></div><div class="formrow"><button id="demoBtn">Show demo preview</button><button id="clearBtn">Clear connection</button></div><div id="connectMsg" class="muted" style="margin-top:8px">Expected JSON format is described in README.md.</div></div>
-<div class="card"><h2>What the app needs</h2><div class="row"><span>Index quotes + previous close</span><span class="pill">Required</span></div><div class="row"><span>Historical OHLC candles</span><span class="pill">Required for levels</span></div><div class="row"><span>Options chain / OI</span><span class="pill">For CE/PE context</span></div><div class="row"><span>Global cues / news</span><span class="pill">For gap model</span></div><div class="row"><span>Freshness timestamp per field</span><span class="pill">Required</span></div></div>
-</section>
-<div class="foot">Educational market monitor · Forecasts are uncertain · Never guarantees profit · Demo values are not live data.</div>
+  <div class="warning" id="mainWarning">
+    <b>Important:</b> Demo mode is active. Values are not live quotes or
+    financial advice. Do not make financial decisions using demo values.
+  </div>
+
+  <section class="grid">
+    <div class="card">
+      <div class="name">NIFTY 50</div>
+      <div class="price" id="nifty">—</div>
+      <div id="niftyChg" class="muted">Awaiting data</div>
+      <div class="row"><span class="muted">Timestamp</span><span class="pill" id="niftyTime">—</span></div>
+    </div>
+
+    <div class="card">
+      <div class="name">BANK NIFTY</div>
+      <div class="price" id="bank">—</div>
+      <div id="bankChg" class="muted">Awaiting data</div>
+      <div class="row"><span class="muted">Timestamp</span><span class="pill" id="bankTime">—</span></div>
+    </div>
+
+    <div class="card">
+      <div class="name">SENSEX</div>
+      <div class="price" id="sensex">—</div>
+      <div id="sensexChg" class="muted">Awaiting data</div>
+      <div class="row"><span class="muted">Timestamp</span><span class="pill" id="sensexTime">—</span></div>
+    </div>
+
+    <div class="card">
+      <div class="name">INDIA VIX</div>
+      <div class="price" id="vix">—</div>
+      <div id="vixChg" class="muted">Awaiting data</div>
+      <div class="row"><span class="muted">Data quality</span><span class="pill" id="quality">Unverified</span></div>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="card">
+      <h2>Market scenarios</h2>
+      <div class="muted">Illustrative scenarios only. No forecast without verified data.</div>
+
+      <div class="row">
+        <div><b>Nifty 50</b><div class="muted">Scenario</div></div>
+        <div style="text-align:right"><div class="pred" id="niftyGap">Awaiting feed</div><div class="muted" id="niftyPts">—</div></div>
+      </div>
+
+      <div class="row">
+        <div><b>Bank Nifty</b><div class="muted">Scenario</div></div>
+        <div style="text-align:right"><div class="pred" id="bankGap">Awaiting feed</div><div class="muted" id="bankPts">—</div></div>
+      </div>
+
+      <div class="row">
+        <div><b>Sensex</b><div class="muted">Scenario</div></div>
+        <div style="text-align:right"><div class="pred" id="sensexGap">Awaiting feed</div><div class="muted" id="sensexPts">—</div></div>
+      </div>
+
+      <div class="box muted">
+        Possible model inputs include previous close, global indices,
+        currency, crude oil and volatility. Missing inputs must not be guessed.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Market overview</h2>
+      <div class="muted">Score −100 to +100, only if calculated by a verified model.</div>
+      <div class="gauge"><div class="needle" id="needle"></div></div>
+      <div class="score amber" id="score">N/A</div>
+      <div class="bias amber" id="bias">Waiting for data</div>
+      <div class="muted">No score is calculated from missing data.</div>
+      <div class="row"><span>GIFT Nifty</span><b id="gift">Not connected</b></div>
+      <div class="row"><span>Global cues</span><b id="global">Not connected</b></div>
+      <div class="row"><span>FII / DII flows</span><b id="flows">Not connected</b></div>
+      <div class="row"><span>Market breadth</span><b id="breadth">Not connected</b></div>
+    </div>
+  </section>
+
+  <section class="three">
+    <div class="card">
+      <h2>Setup status</h2>
+      <div class="row"><span>Bullish conditions</span><b class="green">Not evaluated</b></div>
+      <div class="row"><span>Bearish conditions</span><b class="red">Not evaluated</b></div>
+      <div class="row"><span>Conflicting / missing data</span><b class="amber">Unverified</b></div>
+      <div class="box muted">
+        This prototype does not generate active trading signals.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Key levels</h2>
+      <div class="row"><span>Nifty support</span><b id="ns">Not calculated</b></div>
+      <div class="row"><span>Nifty resistance</span><b id="nr">Not calculated</b></div>
+      <div class="row"><span>Bank Nifty support</span><b id="bs">Not calculated</b></div>
+      <div class="row"><span>Bank Nifty resistance</span><b id="br">Not calculated</b></div>
+      <div class="muted">Requires verified historical data and documented calculations.</div>
+    </div>
+
+    <div class="card">
+      <h2>Global / commodity cues</h2>
+      <div class="row"><span>Nasdaq / S&P 500</span><b id="us">Not connected</b></div>
+      <div class="row"><span>Asian indices</span><b id="asia">Not connected</b></div>
+      <div class="row"><span>Brent crude</span><b id="crude">Not connected</b></div>
+      <div class="row"><span>USD/INR</span><b id="fx">Not connected</b></div>
+      <div class="muted">Market feeds may have different delays and trading hours.</div>
+    </div>
+  </section>
+
+  <section class="two">
+    <div class="card">
+      <h2>Data connection</h2>
+      <div class="muted">
+        Enter a backend URL after deploying your API. Never put secret API
+        tokens in this HTML file.
+      </div>
+
+      <div class="formrow">
+        <input id="apiUrl" type="url" placeholder="https://your-server.example/api/market" aria-label="Backend API URL">
+        <button id="connectBtn">Connect</button>
+      </div>
+
+      <div class="formrow">
+        <button id="demoBtn">Demo status</button>
+        <button id="clearBtn">Clear connection</button>
+      </div>
+
+      <div id="connectMsg" class="muted" style="margin-top:8px">
+        Backend API is not configured.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Integration checklist</h2>
+      <div class="row"><span>Index quotes</span><span class="pill">Required</span></div>
+      <div class="row"><span>Historical candles</span><span class="pill">For levels</span></div>
+      <div class="row"><span>Global data</span><span class="pill">Optional</span></div>
+      <div class="row"><span>Source + timestamp</span><span class="pill">Required</span></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Educational dashboard · Forecasts are uncertain · Demo values are not live data.
+  </div>
 </main>
+
 <script>
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').classList.remove('hidden')});
-document.getElementById('installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}else alert('Open browser menu and choose Install app / Add to Home screen.')});
-if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-const fmt=n=>Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
-function setText(id,v){document.getElementById(id).textContent=(v===undefined||v===null||v==='')?'—':v}
-function applyPayload(d){
-  const map=[['nifty','nifty'],['bank','bankNifty'],['sensex','sensex'],['vix','indiaVix']];
-  for(const [id,key] of map){const x=d.indices?.[key];if(!x)continue;setText(id,fmt(x.last));setText(id+'Chg',`${x.changePct>0?'+':''}${Number(x.changePct).toFixed(2)}%`);document.getElementById(id+'Chg').className=Number(x.changePct)>=0?'green':'red';setText(id+'Time',x.timestamp||'timestamp missing')}
-  const s=d.sentiment;if(s){setText('score',`${s.score>0?'+':''}${s.score}`);setText('bias',s.label);document.getElementById('needle').style.left=Math.max(0,Math.min(100,(s.score+100)/2))+'%';document.getElementById('score').className='score '+(s.score>=20?'green':s.score<=-20?'red':'amber');document.getElementById('bias').className='bias '+(s.score>=20?'green':s.score<=-20?'red':'amber')}
-  const cues=d.cues||{};[['gift','giftNifty'],['global','globalSummary'],['flows','fiiDii'],['breadth','marketBreadth'],['us','usIndices'],['asia','asianIndices'],['crude','brent'],['fx','usdInr']].forEach(([id,k])=>{if(cues[k]!==undefined)setText(id,cues[k])});
-  if(d.gapScenarios){for(const [key,id] of [['nifty','nifty'],['bankNifty','bank'],['sensex','sensex']]){const x=d.gapScenarios[key];if(!x)continue;setText(id+'Gap',x.label||'Range');setText(id+'Pts',x.points||'');}}
-  if(d.levels){[['niftySupport','ns'],['niftyResistance','nr'],['bankNiftySupport','bs'],['bankNiftyResistance','br']].forEach(([k,id])=>{if(d.levels[k]!=null)setText(id,fmt(d.levels[k]))})}
-  setText('quality',d.quality||'Check source');setText('feedStatus',d.mode==='live'?'CONNECTED · VERIFY FRESHNESS':'DELAYED / UNKNOWN');
-  document.querySelector('.warning').innerHTML='<b>Data mode:</b> '+(d.mode==='live'?'Provider payload received. Confirm license, timestamp and delay before trading.':'Feed is not confirmed live. Treat values as delayed or unknown.')+' '+(d.asOf?'As of '+d.asOf:'');
+'use strict';
+
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredPrompt = event;
+  document.getElementById('installBtn').classList.remove('hidden');
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  } else {
+    alert('Open your browser menu and choose Install app or Add to Home screen.');
+  }
+});
+
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('./sw.js').catch(error => {
+    console.warn('Service worker registration failed:', error);
+  });
 }
-async function connect(){const url=document.getElementById('apiUrl').value.trim();if(!url){setText('connectMsg','Enter your deployed backend API URL first.');return}try{setText('connectMsg','Connecting…');const r=await fetch(url,{headers:{'Accept':'application/json'}});if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();applyPayload(d);setText('connectMsg','Connected. Data timestamps and provider delay still need verification.');localStorage.setItem('marketApiUrl',url)}catch(e){setText('connectMsg','Could not connect: '+e.message+'. Check URL, HTTPS, CORS and backend logs.');}}
-document.getElementById('connectBtn').onclick=connect;
-document.getElementById('clearBtn').onclick=()=>{localStorage.removeItem('marketApiUrl');document.getElementById('apiUrl').value='';setText('connectMsg','Connection cleared. Demo/unknown mode remains active.');setText('feedStatus','DEMO DATA')};
-document.getElementById('demoBtn').onclick=()=>{setText('connectMsg','Demo preview only: no market values were fetched.');setText('feedStatus','DEMO DATA')};
-const saved=localStorage.getItem('marketApiUrl');if(saved)document.getElementById('apiUrl').value=saved;
+
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  element.textContent =
+    value === undefined || value === null || value === ''
+      ? '—'
+      : String(value);
+}
+
+function fmt(value) {
+  const number = Number(value);
+  return Number.isFinite(number)
+    ? number.toLocaleString('en-IN', { maximumFractionDigits: 2 })
+    : '—';
+}
+
+function applyPayload(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error('Invalid API response');
+  }
+
+  const indices = data.indices || {};
+
+  const indexMap = [
+    ['nifty', 'nifty'],
+    ['bank', 'bankNifty'],
+    ['sensex', 'sensex'],
+    ['vix', 'indiaVix']
+  ];
+
+  for (const [id, key] of indexMap) {
+    const item = indices[key];
+    if (!item || typeof item !== 'object') continue;
+
+    if (item.last !== undefined && Number.isFinite(Number(item.last))) {
+      setText(id, fmt(item.last));
+    }
+
+    if (item.changePct !== undefined && Number.isFinite(Number(item.changePct))) {
+      const change = Number(item.changePct);
+      const element = document.getElementById(id + 'Chg');
+
+      setText(id + 'Chg', `${change > 0 ? '+' : ''}${change.toFixed(2)}%`);
+
+      if (element) {
+        element.className = change > 0 ? 'green' : change < 0 ? 'red' : 'muted';
+      }
+    }
+
+    if (item.timestamp) {
+      setText(id + 'Time', item.timestamp);
+    }
+  }
+
+  if (data.sentiment && Number.isFinite(Number(data.sentiment.score))) {
+    const score = Number(data.sentiment.score);
+
+    if (score >= -100 && score <= 100) {
+      setText('score', `${score > 0 ? '+' : ''}${score}`);
+      setText('bias', data.sentiment.label || 'Score received');
+      document.getElementById('needle').style.left = ((score + 100) / 2) + '%';
+
+      const colour = score >= 20 ? 'green' : score <= -20 ? 'red' : 'amber';
+      document.getElementById('score').className = 'score ' + colour;
+      document.getElementById('bias').className = 'bias ' + colour;
+    }
+  }
+
+  const cues = data.cues || {};
+  const cueMap = [
+    ['gift', 'giftNifty'],
+    ['global', 'globalSummary'],
+    ['flows', 'fiiDii'],
+    ['breadth', 'marketBreadth'],
+    ['us', 'usIndices'],
+    ['asia', 'asianIndices'],
+    ['crude', 'brent'],
+    ['fx', 'usdInr']
+  ];
+
+  for (const [id, key] of cueMap) {
+    if (cues[key] !== undefined && cues[key] !== null) {
+      setText(id, cues[key]);
+    }
+  }
+
+  if (data.gapScenarios && typeof data.gapScenarios === 'object') {
+    for (const [key, id] of [
+      ['nifty', 'nifty'],
+      ['bankNifty', 'bank'],
+      ['sensex', 'sensex']
+    ]) {
+      const item = data.gapScenarios[key];
+      if (!item) continue;
+      setText(id + 'Gap', item.label || 'Scenario received');
+      setText(id + 'Pts', item.points ?? 'Not provided');
+    }
+  }
+
+  if (data.levels && typeof data.levels === 'object') {
+    for (const [key, id] of [
+      ['niftySupport', 'ns'],
+      ['niftyResistance', 'nr'],
+      ['bankNiftySupport', 'bs'],
+      ['bankNiftyResistance', 'br']
+    ]) {
+      const value = data.levels[key];
+      if (value !== undefined && value !== null && Number.isFinite(Number(value))) {
+        setText(id, fmt(value));
+      }
+    }
+  }
+
+  setText('quality', data.quality || 'Unverified');
+  setText('feedStatus', data.mode === 'live' ? 'LIVE CLAIM · VERIFY' : 'UNVERIFIED');
+
+  const warning = document.getElementById('mainWarning');
+  warning.textContent =
+    'Data mode: ' +
+    (data.mode === 'live'
+      ? 'Provider response received. Verify source, timestamp and delay.'
+      : 'Feed is not confirmed live. Treat values as delayed or unknown.') +
+    (data.asOf ? ' As of ' + String(data.asOf) : '');
+}
+
+async function connect() {
+  const url = document.getElementById('apiUrl').value.trim();
+
+  if (!url) {
+    setText('connectMsg', 'Enter your backend API URL first.');
+    return;
+  }
+
+  let parsed;
+
+  try {
+    parsed = new URL(url);
+  } catch {
+    setText('connectMsg', 'Enter a valid full URL.');
+    return;
+  }
+
+  if (location.protocol === 'https:' && parsed.protocol !== 'https:') {
+    setText('connectMsg', 'Use an HTTPS backend URL for this website.');
+    return;
+  }
+
+  const button = document.getElementById('connectBtn');
+  button.disabled = true;
+  setText('connectMsg', 'Connecting…');
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(12000)
+    });
+
+    if (!response.ok) {
+      throw new Error('HTTP ' + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!data || typeof data !== 'object' || Array.isArray(data) ||
+        !data.indices || typeof data.indices !== 'object') {
+      throw new Error('Unexpected API response format');
+    }
+
+    applyPayload(data);
+    localStorage.setItem('marketApiUrl', url);
+
+    setText(
+      'connectMsg',
+      'Response received. Verify the data source and timestamps; live data is not confirmed.'
+    );
+  } catch (error) {
+    console.error('Connection error:', error);
+    setText(
+      'connectMsg',
+      'Connection failed: ' + error.message +
+      '. Check URL, HTTPS, CORS and backend logs.'
+    );
+  } finally {
+    button.disabled = false;
+  }
+}
+
+document.getElementById('connectBtn').addEventListener('click', connect);
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  localStorage.removeItem('marketApiUrl');
+  document.getElementById('apiUrl').value = '';
+  setText('connectMsg', 'Saved connection cleared.');
+  setText('feedStatus', 'DEMO DATA');
+});
+
+document.getElementById('demoBtn').addEventListener('click', () => {
+  setText('connectMsg', 'Demo status only. No market data was fetched.');
+  setText('feedStatus', 'DEMO DATA');
+});
+
+try {
+  const savedUrl = localStorage.getItem('marketApiUrl');
+  if (savedUrl) document.getElementById('apiUrl').value = savedUrl;
+} catch (error) {
+  console.warn('Local storage unavailable:', error);
+}
 </script>
-</body></html>
+</body>
+</html>
