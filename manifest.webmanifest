@@ -1,0 +1,12 @@
+{
+  "name": "India Live Market Monitor",
+  "short_name": "Market Monitor",
+  "description": "Indian indices, gap scenarios and conditional trading analysis",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#090c11",
+  "theme_color": "#0a0d12",
+  "icons": []
+}
