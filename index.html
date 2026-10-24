@@ -1,274 +1,145 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#08111f">
-<title>India Market Monitor</title>
-<script src="https://s3.tradingview.com/tv.js"></script>
+<!-- MOTIVATIONAL TRADING THEME -->
 <style>
-:root{color-scheme:dark;--bg:#08111f;--card:#111d2e;--line:#24344a;--text:#edf4ff;--muted:#91a4bd;--green:#24d18b;--red:#ff6174;--blue:#64a9ff;--gold:#ffc857}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
-header{padding:20px 16px;background:#0d1929;border-bottom:1px solid var(--line)}
-h1{font-size:23px;margin:0 0 8px}
-.sub{color:var(--muted);font-size:12px}
-main{max-width:1200px;margin:auto;padding:14px}
-.section-title{font-size:16px;margin:22px 0 12px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;min-width:0}
-.label{font-size:12px;color:var(--muted)}
-.value{font-size:23px;font-weight:bold;margin:9px 0}
-.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
-.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#203047;font-size:11px}
-input,select,button{width:100%;padding:11px;margin-top:7px;border-radius:8px;border:1px solid #344761;background:#0b1727;color:var(--text);font-size:14px}
-button{background:#246fe5;border:0;font-weight:bold;cursor:pointer}
-button.secondary{background:#26384f}
-label{display:block;color:var(--muted);font-size:12px;margin-top:10px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.meter{height:12px;border-radius:12px;background:linear-gradient(90deg,#ff6174,#ffc857,#24d18b);margin:16px 0 8px;position:relative}
-.needle{position:absolute;top:-5px;width:4px;height:22px;background:white;border-radius:4px;left:50%}
-.small{font-size:12px;color:var(--muted);line-height:1.6}
-.result{margin-top:14px;padding:12px;border-radius:9px;background:#0a1625;line-height:1.8}
-#chart{height:430px}
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:5px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-td,th{text-align:left;padding:10px 5px;border-bottom:1px solid var(--line)}
-th{color:var(--muted)}
-footer{text-align:center;color:var(--muted);padding:24px;font-size:11px}
-@media(min-width:750px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wide{grid-column:span 2}.full{grid-column:1/-1}}
-@media(max-width:380px){.value{font-size:19px}main{padding:9px}.card{padding:11px}}
+:root {
+  --bg: #070b16;
+  --card: rgba(17, 27, 48, 0.92);
+  --line: rgba(100, 160, 255, 0.22);
+  --text: #f2f6ff;
+  --muted: #9aacc8;
+  --green: #32f5a0;
+  --red: #ff536d;
+  --gold: #ffd166;
+  --blue: #59a5ff;
+}
+
+/* Premium dark background with glowing lights */
+html {
+  min-height: 100%;
+  background: #070b16;
+}
+body {
+  min-height: 100vh;
+  color: var(--text) !important;
+  background:
+    radial-gradient(ellipse at 10% 5%,
+      rgba(35, 100, 220, 0.24), transparent 38%),
+    radial-gradient(ellipse at 90% 25%,
+      rgba(0, 220, 150, 0.10), transparent 35%),
+    radial-gradient(ellipse at 50% 95%,
+      rgba(125, 65, 230, 0.13), transparent 40%),
+    linear-gradient(145deg, #070b16, #0b1426 55%, #080d19) !important;
+  background-attachment: fixed !important;
+}
+
+/* Give cards a professional glass effect */
+.card, .risk-panel, section, article {
+  background: linear-gradient(
+    145deg,
+    rgba(22, 35, 59, 0.96),
+    rgba(10, 18, 33, 0.96)
+  ) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 17px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.20);
+}
+
+h1, h2, h3 {
+  color: #f5f8ff;
+  letter-spacing: 0.2px;
+}
+
+button {
+  transition: transform .18s ease, filter .18s ease;
+}
+button:active {
+  transform: scale(.98);
+}
+button:hover {
+  filter: brightness(1.12);
+}
+
+/* Motivational hero panel */
+.motivation-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 18px auto;
+  padding: 25px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 209, 102, .36);
+  background:
+    radial-gradient(ellipse at 100% 0%,
+      rgba(255, 209, 102, .18), transparent 45%),
+    linear-gradient(125deg, #13213a, #101629 65%, #15243a);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+}
+.motivation-hero .eyebrow {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+.motivation-hero h2 {
+  font-size: clamp(23px, 5vw, 36px);
+  line-height: 1.18;
+  margin: 13px 0;
+}
+.motivation-hero h2 span {
+  color: var(--gold);
+}
+.motivation-hero p {
+  color: #b5c4da;
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 600px;
+}
+.motivation-hero .motto {
+  display: inline-block;
+  color: var(--green);
+  border: 1px solid rgba(50, 245, 160, .3);
+  background: rgba(50, 245, 160, .07);
+  border-radius: 30px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Small accent for risk readings */
+.risk-green, .green {
+  color: var(--green) !important;
+}
+.risk-red, .red {
+  color: var(--red) !important;
+}
+.risk-yellow, .gold {
+  color: var(--gold) !important;
+}
+
+/* Smooth background details */
+.motivation-hero::after {
+  content: "₹";
+  position: absolute;
+  right: 17px;
+  bottom: -42px;
+  font-size: 160px;
+  font-weight: 900;
+  color: rgba(255, 209, 102, .045);
+  pointer-events: none;
+}
+@media (max-width: 480px) {
+  .motivation-hero { padding: 20px 16px; }
+}
 </style>
-</head>
-<body>
-<header>
-  <h1>🇮🇳 India Market Monitor</h1>
-  <div class="sub">MARKET DASHBOARD · OPTIONS RISK · GLOBAL CUES</div>
-  <p><span class="status-dot"></span><span id="marketStatus">Checking Indian market hours…</span></p>
-  <div class="sub">Local time: <span id="clock">--</span></div>
-</header>
 
-<main>
-  <div class="grid">
-    <div class="card">
-      <div class="label">NIFTY 50</div>
-      <div class="value" id="nifty">TradingView</div>
-      <span class="pill">Live chart below</span>
-    </div>
-    <div class="card">
-      <div class="label">SENSEX</div>
-      <div class="value">Chart</div>
-      <span class="pill">Connect market feed for price</span>
-    </div>
-    <div class="card">
-      <div class="label">Global cues</div>
-      <div class="value gold">Awaiting feed</div>
-      <div class="small">US futures, Asian markets, USD/INR, crude</div>
-    </div>
-    <div class="card">
-      <div class="label">Data status</div>
-      <div class="value gold" style="font-size:18px">Feed required</div>
-      <div class="small">No invented live prices</div>
-    </div>
-  </div>
-
-  <h2 class="section-title">📈 Market chart</h2>
-  <div class="card full">
-    <div class="small">TradingView chart · Internet connection required</div>
-    <div id="chart"></div>
-    <div class="small">Chart symbol availability can vary. Open TradingView if the chart fails to load.</div>
-  </div>
-
-  <h2 class="section-title">🌡️ Market sentiment</h2>
-  <div class="grid">
-    <div class="card wide">
-      <div class="label">Bullish ↔ Bearish risk indicator</div>
-      <div class="value" id="sentimentText">Neutral / Unknown</div>
-      <div class="meter"><div class="needle" id="needle"></div></div>
-      <div class="row2 small"><span>Bearish</span><span style="text-align:right">Bullish</span></div>
-      <p class="small">This is a manual sentiment indicator, not a prediction. Change it only using your verified analysis.</p>
-      <label for="sentiment">Set sentiment</label>
-      <input id="sentiment" type="range" min="0" max="100" value="50" oninput="updateSentiment()">
-    </div>
-    <div class="card">
-      <div class="label">Gap-up / gap-down estimate</div>
-      <label for="gap">Your estimated gap in points (+ / −)</label>
-      <input id="gap" type="number" value="0" step="1">
-      <button onclick="updateGap()">Update estimate</button>
-      <div class="result" id="gapResult">Manual estimate: 0 points</div>
-      <p class="small">Not a live forecast. Validate against verified pre-market data.</p>
-    </div>
-  </div>
-
-  <h2 class="section-title">🎯 NIFTY option risk calculator</h2>
-  <div class="grid">
-    <div class="card wide">
-      <div class="pill">Manual/demo calculator · Not a trade recommendation</div>
-      <div class="row2">
-        <div><label>Option type</label>
-          <select id="type"><option value="CE">CALL (CE)</option><option value="PE">PUT (PE)</option></select>
-        </div>
-        <div><label>Strike price</label><input id="strike" type="number" placeholder="e.g. 25000"></div>
-      </div>
-      <div class="row2">
-        <div><label>Premium entry (₹)</label><input id="entry" type="number" value="100" min="0" step="0.05"></div>
-        <div><label>Stop-loss premium (₹)</label><input id="sl" type="number" value="75" min="0" step="0.05"></div>
-      </div>
-      <div class="row2">
-        <div><label>Target premium (₹)</label><input id="target" type="number" value="150" min="0" step="0.05"></div>
-        <div><label>Lot size (verify with exchange/broker)</label><input id="lot" type="number" value="65" min="1"></div>
-      </div>
-      <div class="row2">
-        <div><label>Budget (₹)</label><input id="budget" type="number" value="15000" min="1"></div>
-        <div><label>Lots to calculate</label><input id="lots" type="number" value="1" min="1"></div>
-      </div>
-      <button onclick="calculate()">Calculate risk & reward</button>
-      <div id="calcResult" class="result">Enter values and calculate.</div>
-    </div>
-    <div class="card">
-      <div class="label">Target progress</div>
-      <div class="value" id="progressText">0%</div>
-      <div style="height:12px;background:#26384f;border-radius:10px;overflow:hidden;margin:14px 0">
-        <div id="progressBar" style="height:100%;width:0%;background:var(--green);transition:width .2s"></div>
-      </div>
-      <label>Current premium (manual update)</label>
-      <input id="current" type="number" value="100" min="0" step="0.05">
-      <button onclick="updateProgress()">Update progress</button>
-      <p class="small">Progress is based on the manually entered current premium. It is not connected to live option prices.</p>
-    </div>
-  </div>
-
-  <h2 class="section-title">🌍 Global market checklist</h2>
-  <div class="card full">
-    <p class="small">Check these before making a decision. No live values are shown without a connected feed.</p>
-    <table>
-      <thead><tr><th>Market / indicator</th><th>What to check</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>US markets</td><td>S&P 500, Nasdaq, Dow futures</td><td>Feed required</td></tr>
-        <tr><td>Asia</td><td>Nikkei, Hang Seng, Asian sentiment</td><td>Feed required</td></tr>
-        <tr><td>Volatility</td><td>India VIX / implied volatility</td><td>Feed required</td></tr>
-        <tr><td>Commodities</td><td>Crude oil and gold</td><td>Feed required</td></tr>
-        <tr><td>Currency</td><td>USD/INR movement</td><td>Feed required</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h2 class="section-title">📝 Trade journal</h2>
-  <div class="card">
-    <div class="row2">
-      <div><label>Trade name</label><input id="tradeName" placeholder="e.g. NIFTY CE"></div>
-      <div><label>Realized P&L (₹)</label><input id="tradePnl" type="number" placeholder="e.g. 500"></div>
-    </div>
-    <button onclick="addTrade()">Add trade</button>
-    <div id="trades" class="result">No trades added in this session.</div>
-    <button class="secondary" onclick="clearTrades()">Clear journal</button>
-    <p class="small">Journal entries stay in this page session and may be lost when the page is reloaded.</p>
-  </div>
-  <footer>
-    Educational risk tool. Not financial advice. Options can lose the entire premium.
-    Verify current lot size, contract specifications, prices, fees and market status with official sources or your broker.
-  </footer>
-</main>
-
-<script>
-function updateClock(){
- const now=new Date();
- document.getElementById('clock').textContent=now.toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
- const parts=new Intl.DateTimeFormat('en-US',{
-  timeZone:'Asia/Kolkata',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false
- }).formatToParts(now);
- const p={};parts.forEach(x=>p[x.type]=x.value);
- const mins=Number(p.hour)*60+Number(p.minute);
- const open=p.weekday!=='Sat'&&p.weekday!=='Sun'&&mins>=555&&mins<930;
- document.getElementById('marketStatus').textContent=
-  (open?'Regular equity hours: OPEN':'Regular equity hours: CLOSED')+
-  ' · NSE normal session 09:15–15:30 IST; holidays not accounted for';
-}
-setInterval(updateClock,1000);updateClock();
-
-function updateSentiment(){
- const n=Number(document.getElementById('sentiment').value);
- document.getElementById('needle').style.left=n+'%';
- const el=document.getElementById('sentimentText');
- el.textContent=n<35?'Bearish bias (manual)':n>65?'Bullish bias (manual)':'Neutral / mixed (manual)';
- el.className='value '+(n<35?'red':n>65?'green':'gold');
-}
-function updateGap(){
- const n=Number(document.getElementById('gap').value||0);
- document.getElementById('gapResult').textContent=
-  'Manual estimate: '+(n>0?'+':'')+n+' points · '+(n>0?'Gap-up estimate':n<0?'Gap-down estimate':'No gap estimate');
-}
-function num(id){return Number(document.getElementById(id).value)}
-function money(n){return '₹'+n.toLocaleString('en-IN',{maximumFractionDigits:2})}
-function calculate(){
- const entry=num('entry'),sl=num('sl'),target=num('target'),lot=num('lot'),
- lots=num('lots'),budget=num('budget'),strike=num('strike');
- const out=document.getElementById('calcResult');
- if(![entry,sl,target,lot,lots,budget].every(Number.isFinite)||
- entry<=0||sl<0||target<=0||lot<=0||lots<1||budget<=0){
-  out.textContent='Please enter valid positive values.';return;
- }
- if(sl>=entry||target<=entry){
-  out.textContent='For a long option example, stop-loss should be below entry and target above entry.';return;
- }
- const qty=lot*lots,cost=entry*qty,loss=(entry-sl)*qty,profit=(target-entry)*qty;
- out.innerHTML=
-  '<b>Contract:</b> '+(document.getElementById('type').value)+' '+(strike>0?strike:'strike not entered')+
-  '<br><b>Quantity:</b> '+qty+' units ('+lots+' lot(s))'+
-  '<br><b>Premium outlay:</b> '+money(cost)+
-  '<br><b>Budget:</b> '+money(budget)+
-  '<br><b>Budget check:</b> '+(cost<=budget?'Within budget before charges':'Exceeds budget before charges')+
-  '<br><b>Estimated loss at SL:</b> <span class="red">'+money(loss)+'</span>'+
-  '<br><b>Estimated gain at target:</b> <span class="green">'+money(profit)+'</span>'+
-  '<br><b>Risk : reward:</b> 1 : '+(profit/loss).toFixed(2)+
-  '<br><span class="small">Excludes brokerage, taxes, slippage and gap risk. Assumes a long option position exited at the specified premiums.</span>';
- updateProgress();
-}
-function updateProgress(){
- const entry=num('entry'),target=num('target'),current=num('current');
- if(!(target>entry)||current<0){return}
- const pct=Math.max(0,Math.min(100,(current-entry)/(target-entry)*100));
- document.getElementById('progressText').textContent=pct.toFixed(0)+'%';
- const bar=document.getElementById('progressBar');
- bar.style.width=pct+'%';
- bar.style.background=current<=num('sl')?'var(--red)':pct>=100?'var(--green)':pct>=50?'#8adf69':'var(--gold)';
-}
-let journal=[];
-function addTrade(){
- const name=document.getElementById('tradeName').value.trim()||'Trade';
- const pnl=Number(document.getElementById('tradePnl').value);
- if(!Number.isFinite(pnl)||document.getElementById('tradePnl').value===''){
-  alert('Enter a valid realized P&L');return;
- }
- journal.push({name,pnl});
- renderTrades();
-}
-function renderTrades(){
- const el=document.getElementById('trades');
- if(!journal.length){el.textContent='No trades added in this session.';return}
- const total=journal.reduce((s,t)=>s+t.pnl,0);
- el.innerHTML=journal.map((t,i)=>
-  (i+1)+'. '+escapeHtml(t.name)+' — <span class="'+(t.pnl>=0?'green':'red')+'">'+money(t.pnl)+'</span>'
- ).join('<br>')+'<hr><b>Total P&L: <span class="'+(total>=0?'green':'red')+'">'+money(total)+'</span></b>';
-}
-function escapeHtml(s){
- return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function clearTrades(){journal=[];renderTrades();}
-updateSentiment();updateGap();calculate();
-
-if(window.TradingView){
- new TradingView.widget({
-  autosize:true,symbol:'NSE:NIFTY',interval:'5',timezone:'Asia/Kolkata',
-  theme:'dark',style:'1',locale:'en',enable_publishing:false,
-  allow_symbol_change:true,container_id:'chart',
-  hide_side_toolbar:false,withdateranges:true
- });
-}else{
- document.getElementById('chart').innerHTML=
- '<p class="small">Chart library load nahi hui. Internet check karo ya TradingView website kholo.</p>';
-}
-</script>
-</body>
-</html>
+<!-- MOTIVATIONAL BANNER -->
+<div class="motivation-hero">
+  <div class="eyebrow">DISCIPLINE · PATIENCE · CONSISTENCY</div>
+  <h2>Trade the plan.<br><span>Protect your capital.</span></h2>
+  <p>
+    Har din profit banana zaroori nahi.
+    Har din discipline follow karna zaroori hai.
+    Pehle risk samjho, phir trade lo.
+  </p>
+  <div class="motto">⚡ PROCESS OVER EMOTION</div>
+</div>
+<!-- END MOTIVATIONAL THEME -->
