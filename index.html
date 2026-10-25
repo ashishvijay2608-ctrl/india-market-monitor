@@ -34,13 +34,18 @@
         .sparkline { width: 100%; height: 100%; }
         .c-meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); }
 
+        /* Upper Gauge Fixed */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
         .gauge-container { position: relative; width: 200px; height: 100px; margin: 0 auto; overflow: hidden; }
         .gauge-bg { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
         .gauge-inner { width: 160px; height: 160px; border-radius: 50%; background: var(--panel); position: absolute; top: 20px; left: 20px; }
-        .gauge-needle { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; background: #fff; transform-origin: bottom center; transform: rotate(-45deg); transition: transform 1s ease; z-index: 10; border-radius: 2px; }
+        /* Fixed Needle */
+        .gauge-needle-wrapper { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; transform-origin: bottom center; transition: transform 1s ease; z-index: 10; }
+        .gauge-needle { width: 100%; height: 100%; background: #fff; border-radius: 2px; }
+        .gauge-pivot { position: absolute; bottom: -6px; left: -6px; width: 16px; height: 16px; background: #fff; border-radius: 50%; z-index: 11; border: 2px solid var(--bg); }
+        
         .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
         .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
 
@@ -77,7 +82,7 @@
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
 
-        /* Options & Calculator */
+        /* Options List & Speedometers */
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -94,6 +99,15 @@
         .lot-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
         .lot-input { display: flex; align-items: center; gap: 5px; }
         .lot-input input { width: 40px; background: var(--bg); border: 1px solid var(--border); color: #fff; text-align: center; border-radius: 4px; padding: 2px;}
+
+        /* Premium Speedometer */
+        .prem-gauge-container { position: relative; width: 120px; height: 60px; margin: 15px auto 0; overflow: hidden; }
+        .prem-gauge-bg { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
+        .prem-gauge-inner { width: 90px; height: 90px; border-radius: 50%; background: var(--bg); position: absolute; top: 15px; left: 15px; }
+        .prem-gauge-needle-wrapper { position: absolute; bottom: 0; left: 50%; width: 3px; height: 50px; transform-origin: bottom center; transition: transform 1s ease; z-index: 10; }
+        .prem-gauge-needle { width: 100%; height: 100%; background: #fff; border-radius: 2px; }
+        .prem-gauge-pivot { position: absolute; bottom: -4px; left: -4px; width: 11px; height: 11px; background: #fff; border-radius: 50%; z-index: 11; border: 1px solid var(--bg); }
+        .prem-labels { display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--muted); margin-top: 2px; padding: 0 10px;}
 
         /* Charts */
         .chart-container { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; }
@@ -119,46 +133,37 @@
     <!-- TOP INDICES -->
     <div class="grid-2">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
-            <div class="c-header">
-                <div><div class="c-name">NIFTY 50</div><div class="c-region">NSE spot</div></div>
-                <div class="c-status">CLOSED</div>
-            </div>
+            <div class="c-header"><div><div class="c-name">NIFTY 50</div><div class="c-region">NSE spot</div></div><div class="c-status">CLOSED</div></div>
             <div class="c-price">22,150.20</div>
             <div class="c-change text-red">▼ -87.65 (-0.39%)</div>
         </div>
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
-            <div class="c-header">
-                <div><div class="c-name">GIFT NIFTY</div><div class="c-region">NSE IX futures</div></div>
-                <div class="c-status">CLOSED</div>
-            </div>
+            <div class="c-header"><div><div class="c-name">GIFT NIFTY</div><div class="c-region">NSE IX futures</div></div><div class="c-status">CLOSED</div></div>
             <div class="c-price">22,535.5</div>
             <div class="c-change text-red">▼ -72.5 (-0.32%)</div>
         </div>
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
-            <div class="c-header">
-                <div><div class="c-name">SENSEX</div><div class="c-region">BSE Index</div></div>
-                <div class="c-status">CLOSED</div>
-            </div>
+            <div class="c-header"><div><div class="c-name">SENSEX</div><div class="c-region">BSE Index</div></div><div class="c-status">CLOSED</div></div>
             <div class="c-price">73,125.40</div>
             <div class="c-change text-red">▼ -210.50 (-0.29%)</div>
         </div>
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
-            <div class="c-header">
-                <div><div class="c-name">BANK NIFTY</div><div class="c-region">NSE Bank Index</div></div>
-                <div class="c-status">CLOSED</div>
-            </div>
+            <div class="c-header"><div><div class="c-name">BANK NIFTY</div><div class="c-region">NSE Bank Index</div></div><div class="c-status">CLOSED</div></div>
             <div class="c-price">48,150.60</div>
             <div class="c-change text-red">▼ -150.20 (-0.31%)</div>
         </div>
     </div>
 
-    <!-- SENTIMENT GAUGE -->
+    <!-- UPPER SENTIMENT GAUGE (Fixed) -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
             <div class="gauge-bg"></div>
             <div class="gauge-inner"></div>
-            <div class="gauge-needle" id="needle" style="transform: rotate(-45deg);"></div>
+            <div class="gauge-needle-wrapper" id="upper-needle-wrapper">
+                <div class="gauge-needle"></div>
+                <div class="gauge-pivot"></div>
+            </div>
         </div>
         <div class="gauge-value" id="score-val">-11.5</div>
         <div class="status-text text-red" id="status-val">Mildly bearish</div>
@@ -195,12 +200,10 @@
 
     <!-- LIVE CHARTS -->
     <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LIVE CHARTS</div>
-    
     <div class="chart-container">
         <div class="chart-title"><span>NIFTY 50 Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div>
         <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
     </div>
-
     <div class="chart-container">
         <div class="chart-title"><span>SENSEX Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div>
         <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
@@ -217,9 +220,9 @@
         <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
     </div>
 
-    <!-- HIGH PROB OPTIONS WITH CALCULATOR -->
+    <!-- HIGH PROB OPTIONS WITH SPEEDOMETER -->
     <div class="pred-card">
-        <div class="pred-header">High-Probability Options & Lot Calculator</div>
+        <div class="pred-header">High-Probability Options</div>
         <div class="opt-list" id="options-list"></div>
     </div>
 
@@ -260,10 +263,7 @@
                     const chartColor = d.trend === 'up' ? 'var(--green)' : 'var(--red)';
                     grid.innerHTML += `
                         <div class="card">
-                            <div class="c-header">
-                                <div><div class="c-name">${d.name}</div><div class="c-region">${d.region}</div></div>
-                                <div class="c-status">CLOSED</div>
-                            </div>
+                            <div class="c-header"><div><div class="c-name">${d.name}</div><div class="c-region">${d.region}</div></div><div class="c-status">CLOSED</div></div>
                             <div class="c-price">${d.price}</div>
                             <div class="c-change ${colorClass}">${icon} ${d.change}</div>
                             <div class="sparkline-container">${generateSparkline(chartColor)}</div>
@@ -281,7 +281,10 @@
                 const d = json.data;
                 document.getElementById('score-val').innerText = d.score;
                 document.getElementById('status-val').innerText = d.status;
-                document.getElementById('needle').style.transform = `rotate(${(d.score / 100) * 90}deg)`;
+                
+                // Fix needle rotation
+                let rotation = (d.score / 100) * 90; 
+                document.getElementById('upper-needle-wrapper').style.transform = `rotate(${rotation}deg)`;
 
                 const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
@@ -307,7 +310,6 @@
             }
         }
 
-        // Options with Lot Calculator Logic
         async function fetchPredictor() {
             const res = await fetch(`${API_BASE}/predictor`);
             const json = await res.json();
@@ -325,7 +327,12 @@
                 d.options.forEach((o, index) => {
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
-                    const lotSize = 50; // Standard NIFTY lot size
+                    
+                    // Premium Speedometer Logic (Entry to Target)
+                    let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
+                    if (progress < 0) progress = 0;
+                    if (progress > 100) progress = 100;
+                    let rotation = (progress / 100) * 180 - 90; // -90 to +90 degrees
 
                     optList.innerHTML += `
                         <div class="opt-item">
@@ -339,14 +346,29 @@
                                 <span>SL: ₹${o.sl}</span>
                                 <span>Target: ₹${o.target}</span>
                             </div>
-                            
+
+                            <!-- Premium Speedometer -->
+                            <div class="prem-gauge-container">
+                                <div class="prem-gauge-bg"></div>
+                                <div class="prem-gauge-inner"></div>
+                                <div class="prem-gauge-needle-wrapper" style="transform: rotate(${rotation}deg);">
+                                    <div class="prem-gauge-needle"></div>
+                                    <div class="prem-gauge-pivot"></div>
+                                </div>
+                            </div>
+                            <div class="prem-labels">
+                                <span>SL</span>
+                                <span>Entry</span>
+                                <span>Target</span>
+                            </div>
+
                             <!-- Lot Calculator -->
                             <div class="lot-calc">
                                 <div class="lot-row">
-                                    <span>Lot Size: <b>${lotSize}</b></span>
+                                    <span>Lot Size: <b>50</b></span>
                                     <div class="lot-input">
                                         <span>Lots:</span>
-                                        <input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, ${lotSize})">
+                                        <input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, 50)">
                                     </div>
                                 </div>
                                 <div class="lot-row"><span>Risk (Max Loss):</span> <span id="risk-${index}" class="text-red">₹0</span></div>
@@ -354,42 +376,48 @@
                             </div>
                         </div>
                     `;
-                    // Initialize calculation
-                    setTimeout(() => calcPnL(index, o.premium, o.sl, o.target, lotSize), 0);
+                    setTimeout(() => calcPnL(index, o.premium, o.sl, o.target, 50), 0);
                 });
             }
         }
 
-        // Calculator Logic Function
         function calcPnL(index, entry, sl, target, lotSize) {
             const lots = parseInt(document.getElementById(`lots-${index}`).value) || 1;
             const qty = lotSize * lots;
             const risk = (entry - sl) * qty;
             const reward = (target - entry) * qty;
-            
             document.getElementById(`risk-${index}`).innerText = `₹${risk.toFixed(2)}`;
             document.getElementById(`reward-${index}`).innerText = `₹${reward.toFixed(2)}`;
         }
 
-        // Fetch News
         async function fetchNews() {
             try {
-                const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
+                // Using a more reliable RSS feed source for Indian markets
+                const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en'));
                 const data = await res.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const items = xmlDoc.getElementsByTagName("item");
+                
                 const container = document.getElementById('news-container');
                 container.innerHTML = '';
                 
-                if(data.items && data.items.length > 0) {
-                    data.items.slice(0, 4).forEach(item => {
-                        const d = new Date(item.pubDate);
-                        const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
-                        container.innerHTML += `
-                            <div class="news-item">
-                                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
-                                <div class="news-meta">${timeStr} · Source: Google News</div>
-                            </div>
-                        `;
-                    });
+                if(items.length > 0) {
+                    for(let i=0; i < Math.min(items.length, 5); i++) {
+                        const title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                        const link = items[i].getElementsByTagName("link")[0].childNodes[0].nodeValue;
+                        const pubDate = items[i].getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
+                                        const sourceName = items[i].getElementsByTagName("source")[0] ? items[i].getElementsByTagName("source")[0].childNodes[0].nodeValue : "Google News";
+                const d = new Date(pubDate);
+                const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
+                
+                container.innerHTML += `
+                    <div class="news-item">
+                        <a href="${link}" target="_blank" class="news-title">${title}</a>
+                        <div class="news-meta">${timeStr} · Source: ${sourceName}</div>
+                    </div>
+                `;
+                    }
                 } else {
                     container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available.</div>';
                 }
