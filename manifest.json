@@ -1,0 +1,15 @@
+{
+  "name": "India Market Monitor",
+  "short_name": "MarketMonitor",
+  "start_url": "/india-market-monitor/",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#0a0c10",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2933/2933251.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
