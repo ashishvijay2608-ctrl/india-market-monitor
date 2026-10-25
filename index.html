@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Market Monitor | Pro Terminal</title>
+    <title>India Market Monitor | Pro</title>
     <style>
         :root {
-            --bg: #0a0c10;
-            --panel: #12161f;
-            --border: #1f2533;
-            --text: #e2e8f0;
-            --muted: #8b95a5;
-            --green: #10b981;
-            --red: #ef4444;
-            --blue: #3b82f6;
-            --yellow: #f59e0b;
+            --bg: #0a0c10; --panel: #12161f; --border: #1f2533; --text: #e2e8f0;
+            --muted: #8b95a5; --green: #10b981; --red: #ef4444; --blue: #3b82f6; --yellow: #f59e0b;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text); padding: 15px; padding-bottom: 50px; }
@@ -23,7 +16,6 @@
         h1 { font-size: 1.1rem; font-weight: 700; color: #fff; }
         .time { font-size: 0.75rem; color: var(--muted); }
 
-        /* Grid Cards */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; position: relative; }
         
@@ -38,12 +30,6 @@
         .text-red { color: var(--red); }
         .text-muted { color: var(--muted); }
 
-        /* Live Chart Section */
-        .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; }
-        .chart-header { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; font-weight: bold; display: flex; justify-content: space-between;}
-        .chart-frame { width: 100%; height: 350px; border: none; display: block; }
-
-        /* Sentiment Gauge */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -52,13 +38,10 @@
         .gauge-inner { width: 160px; height: 160px; border-radius: 50%; background: var(--panel); position: absolute; top: 20px; left: 20px; }
         .gauge-needle { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; background: #fff; transform-origin: bottom center; transform: rotate(-45deg); transition: transform 1s ease; z-index: 10; border-radius: 2px; }
         .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
-        
         .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
 
-        /* Score Breakdown */
         .score-section { text-align: left; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
         .score-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between;}
-        
         .factor-row { margin-bottom: 12px; }
         .factor-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px; }
         .factor-weight { font-size: 0.7rem; color: var(--muted); }
@@ -66,11 +49,9 @@
         .factor-bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 6px; background: #555; }
         .factor-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: -1px; transform: translateX(-50%); }
 
-        /* FII/DII Section */
         .fiidii-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
         .fiidii-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 15px; color: var(--text); font-weight: 600;}
         
-        /* Chart Placeholder for Bars */
         .bar-chart-container { display: flex; align-items: flex-end; height: 120px; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
         .bar-group { flex: 1; display: flex; justify-content: center; gap: 2px; height: 100%; align-items: flex-end; position: relative;}
         .bar { width: 6px; border-radius: 2px 2px 0 0; transition: height 0.3s; }
@@ -78,14 +59,20 @@
         .bar-dii { background: var(--blue); }
         .bar-center-line { position: absolute; width: 100%; height: 1px; background: var(--border); top: 50%; left: 0;}
 
-        /* Flow Summary Table */
         .flow-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 15px; }
         .flow-table th { text-align: left; color: var(--muted); font-weight: normal; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .flow-table td { padding: 10px 0; border-bottom: 1px solid var(--border); }
         .flow-table td:not(:first-child) { text-align: right; }
         .flow-table th:not(:first-child) { text-align: right; }
 
-        /* Options List */
+        .pred-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .pred-header { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display: flex; justify-content: space-between;}
+        .gap-main { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .gap-sub { font-size: 0.9rem; margin-bottom: 15px; }
+        .prob-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;}
+        .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -98,14 +85,6 @@
         .opt-meta-row span { color: #fff; font-weight: 600;}
         .mini-gauge-bg { width: 100%; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow) 30%, var(--green)); border-radius: 4px; position: relative; margin-top: 10px;}
         .mini-gauge-marker { width: 3px; height: 14px; background: white; position: absolute; top: -3px; border-radius: 2px; box-shadow: 0 0 3px #000;}
-        
-        .pred-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        .pred-header { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display: flex; justify-content: space-between;}
-        .gap-main { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
-        .gap-sub { font-size: 0.9rem; margin-bottom: 15px; }
-        .prob-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;}
-        .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
-        .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
     </style>
 </head>
 <body>
@@ -115,13 +94,13 @@
         <div class="time" id="current-time">Loading...</div>
     </div>
 
-    <!-- INDIAN INDICES -->
+    <!-- TOP: NIFTY & GIFT NIFTY -->
     <div class="grid-2" style="margin-bottom: 20px;">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
                 <div>
                     <div class="c-name">NIFTY 50</div>
-                    <div class="c-region">NSE Spot</div>
+                    <div class="c-region">NSE spot</div>
                 </div>
                 <div class="c-status">CLOSED</div>
             </div>
@@ -132,37 +111,14 @@
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
                 <div>
-                    <div class="c-name">SENSEX</div>
-                    <div class="c-region">BSE Spot</div>
+                    <div class="c-name">GIFT NIFTY</div>
+                    <div class="c-region">NSE IX futures</div>
                 </div>
                 <div class="c-status">CLOSED</div>
             </div>
-            <div class="c-price">73,125.40</div>
-            <div class="c-change text-red">▼ -210.50 (-0.29%)</div>
+            <div class="c-price">22,535.5</div>
+            <div class="c-change text-red">▼ -72.5 (-0.32%)</div>
         </div>
-    </div>
-
-    <!-- LIVE CHART SECTION (NIFTY) -->
-    <div class="chart-card">
-        <div class="chart-header">
-            <span>NIFTY 50 Live Chart</span>
-            <span style="color:var(--muted); font-size:0.7rem;">TradingView</span>
-        </div>
-        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
-    </div>
-
-    <!-- GLOBAL MARKETS GRID -->
-    <div class="grid-2" id="global-grid">
-        <!-- Javascript will populate this -->
-    </div>
-
-    <!-- LIVE CHART SECTION (GLOBAL) -->
-    <div class="chart-card">
-        <div class="chart-header">
-            <span>GIFT NIFTY Live Chart</span>
-            <span style="color:var(--muted); font-size:0.7rem;">TradingView</span>
-        </div>
-        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY1!&interval=15&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
     </div>
 
     <!-- SENTIMENT GAUGE WITH SCORE BREAKDOWN -->
@@ -181,9 +137,7 @@
                 <span>Score Breakdown</span>
                 <span>How each input moves the gauge</span>
             </div>
-            <div id="breakdown-list">
-                <!-- Breakdown factors will load here -->
-            </div>
+            <div id="breakdown-list"></div>
         </div>
     </div>
 
@@ -216,11 +170,12 @@
                     <th>Combined</th>
                 </tr>
             </thead>
-            <tbody id="fiidii-table-body">
-                <!-- Data loads here -->
-            </tbody>
+            <tbody id="fiidii-table-body"></tbody>
         </table>
     </div>
+
+    <!-- REST OF GLOBAL MARKETS -->
+    <div class="grid-2" id="global-grid"></div>
 
     <!-- GAP PREDICTOR -->
     <div class="pred-card">
@@ -238,9 +193,7 @@
     <!-- HIGH PROB OPTIONS -->
     <div class="pred-card">
         <div class="pred-header">High-Probability Options</div>
-        <div class="opt-list" id="options-list">
-            <!-- Options injected here -->
-        </div>
+        <div class="opt-list" id="options-list"></div>
     </div>
 
     <script>
@@ -250,7 +203,6 @@
             document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
         }, 1000);
 
-        // 1. Fetch Global
         async function fetchGlobal() {
             const res = await fetch(`${API_BASE}/global`);
             const json = await res.json();
@@ -277,7 +229,6 @@
             }
         }
 
-        // 2. Fetch Sentiment, Breakdown & FII/DII
         async function fetchSentiment() {
             const res = await fetch(`${API_BASE}/sentiment`);
             const json = await res.json();
@@ -285,17 +236,13 @@
                 const d = json.data;
                 document.getElementById('score-val').innerText = d.score;
                 document.getElementById('status-val').innerText = d.status;
-                
-                let rotation = (d.score / 100) * 90; 
-                document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
+                document.getElementById('needle').style.transform = `rotate(${(d.score / 100) * 90}deg)`;
 
                 const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
                     const isDrag = t.type === 'drag';
                     const color = isDrag ? 'var(--red)' : 'var(--green)';
-                    const leftPosition = isDrag ? (50 - (Math.abs(parseFloat(t.value)) * 5)) : (50 + (Math.abs(parseFloat(t.value)) * 5));
-                    
                     breakdownDiv.innerHTML += `
                         <div class="factor-row">
                             <div class="factor-header">
@@ -305,7 +252,7 @@
                             <div style="font-size:0.65rem; color:var(--muted); margin-bottom:2px;">Weight ${t.weight}</div>
                             <div class="factor-bar-bg">
                                 <div class="factor-bar-center"></div>
-                                <div class="factor-dot" style="left: ${leftPosition}%; background: ${color};"></div>
+                                <div class="factor-dot" style="left: ${t.pos}%; background: ${color};"></div>
                             </div>
                         </div>
                     `;
@@ -321,13 +268,11 @@
             }
         }
 
-        // 3. Fetch Predictor & Options
         async function fetchPredictor() {
             const res = await fetch(`${API_BASE}/predictor`);
             const json = await res.json();
             if(json.success) {
                 const d = json.data;
-                
                 document.getElementById('gap-dir').innerText = d.gap.direction;
                 document.getElementById('gap-sub').innerText = `▼ ${d.gap.points} (${d.gap.percent})`;
                 document.getElementById('up-p').innerText = d.gap.gapUpProb + "%";
@@ -340,5 +285,27 @@
                 d.options.forEach(o => {
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
-                    
-          
+                    optList.innerHTML += `
+                        <div class="opt-item">
+                            <div class="opt-top">
+                                <span class="opt-type ${typeClass}">${o.type}</span>
+                                <span class="opt-strike">Strike: ${o.strike}</span>
+                                <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
+                            </div>
+                            <div class="opt-meta-row">
+                                <span>Prem: ₹${o.premium}</span>
+                                <span>SL: ₹${o.sl}</span>
+                                <span>Target: ₹${o.target}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        fetchGlobal();
+        fetchSentiment();
+        fetchPredictor();
+    </script>
+</body>
+</html>
