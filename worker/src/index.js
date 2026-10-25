@@ -9,42 +9,49 @@ export default {
 
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-    // Health Check
+    // 1. Health Check
     if (url.pathname === "/health") {
-      return Response.json({ status: "ok" }, { headers: corsHeaders });
+      return Response.json({ status: "ok", service: "india-market-api-pro" }, { headers: corsHeaders });
     }
 
-    // API Endpoint for 15-sec polling
-    if (url.pathname === "/api/live-data") {
-      // FAKE DATA for testing (will be replaced with Angel One later)
-      const basePrice = 21500;
-      const randomMove = Math.floor(Math.random() * 40) - 20; // -20 to +20
-      const currentPrice = basePrice + randomMove;
-      
-      // Simple Logic: If price goes above 21515, send BUY signal
-      let signal = "NEUTRAL";
-      let message = "Market is ranging. No clear trend.";
-      
-      if (currentPrice > 21515) {
-        signal = "BULLISH";
-        message = "Strong momentum detected. Target 21600 looks possible.";
-      } else if (currentPrice < 21485) {
-        signal = "BEARISH";
-        message = "Selling pressure. Support at 21400.";
-      }
+    // 2. Gap Predictor Logic (Simulated for now)
+    if (url.pathname === "/api/gap-predictor") {
+      const gapUpProb = Math.floor(Math.random() * 20) + 60; // 60-80%
+      const gapDownProb = Math.floor(Math.random() * 20) + 10; // 10-30%
+      const flatProb = 100 - gapUpProb - gapDownProb;
 
       return Response.json({
         success: true,
-        timestamp: new Date().toISOString(),
         data: {
-          symbol: "NIFTY 50",
-          price: currentPrice,
-          signal: signal,
-          message: message
+          direction: "GAP UP",
+          gapUpProb: gapUpProb,
+          gapDownProb: gapDownProb,
+          flatProb: flatProb,
+          reasons: [
+            "US Markets closed positive (+0.5%)",
+            "Crude Oil prices dropped (-1.2%)",
+            "GIFT NIFTY trading higher by 0.4%"
+          ]
         }
       }, { headers: corsHeaders });
     }
 
-    return new Response("API running", { headers: corsHeaders });
+    // 3. Live Option Premium (Simulated for Speedometer test)
+    if (url.pathname === "/api/premium") {
+      const basePremium = 100;
+      const randomMove = Math.floor(Math.random() * 10) - 3; 
+      const currentPremium = basePremium + randomMove;
+      
+      return Response.json({
+        success: true,
+        data: {
+          symbol: "NIFTY 21500 CE",
+          premium: currentPremium,
+          timestamp: new Date().toLocaleTimeString()
+        }
+      }, { headers: corsHeaders });
+    }
+
+    return new Response("API running. Endpoints: /health, /api/gap-predictor, /api/premium", { headers: corsHeaders });
   }
 };
