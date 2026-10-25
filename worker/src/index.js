@@ -54,4 +54,4 @@ export default {
 
     return new Response("API running. Endpoints: /health, /api/gap-predictor, /api/premium", { headers: corsHeaders });
   }
-};
+}; 
