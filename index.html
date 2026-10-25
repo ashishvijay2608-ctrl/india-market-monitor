@@ -30,12 +30,10 @@
         .text-red { color: var(--red); }
         .text-muted { color: var(--muted); }
 
-        /* Sparkline Chart */
-        .sparkline-container { height: 50px; width: 100%; margin-top: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; margin-bottom: 5px;}
+        .sparkline-container { height: 40px; width: 100%; margin-top: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; margin-bottom: 5px;}
         .sparkline { width: 100%; height: 100%; }
-        .c-meta { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--muted); }
+        .c-meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); }
 
-        /* Sentiment Gauge */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -46,7 +44,6 @@
         .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
         .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
 
-        /* Score Breakdown */
         .score-section { text-align: left; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
         .score-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between;}
         .factor-row { margin-bottom: 12px; }
@@ -56,13 +53,13 @@
         .factor-bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 6px; background: #555; }
         .factor-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: -1px; transform: translateX(-50%); }
 
-        /* FII/DII Section */
         .fiidii-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
         .fiidii-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 15px; color: var(--text); font-weight: 600;}
         
-        .bar-chart-container { display: flex; align-items: flex-end; height: 120px; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
+        /* FIXED BAR CHART */
+        .bar-chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 100px; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
         .bar-group { flex: 1; display: flex; justify-content: center; gap: 2px; height: 100%; align-items: flex-end; position: relative;}
-        .bar { width: 6px; border-radius: 2px 2px 0 0; transition: height 0.3s; }
+        .bar { width: 8px; border-radius: 2px 2px 0 0; }
         .bar-fii { background: var(--yellow); }
         .bar-dii { background: var(--blue); }
         .bar-center-line { position: absolute; width: 100%; height: 1px; background: var(--border); top: 50%; left: 0;}
@@ -81,7 +78,6 @@
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
 
-        /* Options List */
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -93,7 +89,6 @@
         .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
         .opt-meta-row span { color: #fff; font-weight: 600;}
         
-        /* Speedometer */
         .mini-gauge-container { position: relative; width: 100%; height: 25px; margin-top: 10px; overflow: hidden; }
         .mini-gauge-bg { width: 100%; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow) 30%, var(--green)); border-radius: 4px; position: relative; top: 8px;}
         .mini-gauge-marker { width: 3px; height: 20px; background: white; position: absolute; top: 2px; border-radius: 2px; box-shadow: 0 0 3px #000; transform: translateX(-50%); transition: left 0.5s;}
@@ -107,7 +102,6 @@
         <div class="time" id="current-time">Loading...</div>
     </div>
 
-    <!-- TOP: NIFTY & GIFT NIFTY -->
     <div class="grid-2" style="margin-bottom: 20px;">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
@@ -134,7 +128,6 @@
         </div>
     </div>
 
-    <!-- SENTIMENT GAUGE WITH SCORE BREAKDOWN -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
@@ -154,7 +147,6 @@
         </div>
     </div>
 
-    <!-- FII/DII ACTIVITY -->
     <div class="fiidii-card">
         <div class="fiidii-header">
             <span>FII / DII ACTIVITY</span>
@@ -187,10 +179,8 @@
         </table>
     </div>
 
-    <!-- REST OF GLOBAL MARKETS (With Sparklines) -->
     <div class="grid-2" id="global-grid"></div>
 
-    <!-- GAP PREDICTOR -->
     <div class="pred-card">
         <div class="pred-header">Next-Day Gap Predictor</div>
         <div class="gap-main text-red" id="gap-dir">GAP DOWN</div>
@@ -203,7 +193,6 @@
         <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
     </div>
 
-    <!-- HIGH PROB OPTIONS -->
     <div class="pred-card">
         <div class="pred-header">High-Probability Options</div>
         <div class="opt-list" id="options-list"></div>
@@ -216,7 +205,6 @@
             document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
         }, 1000);
 
-        // Sparkline Generator
         function generateSparkline(color) {
             const points = [];
             let y = 20;
@@ -237,7 +225,7 @@
                 const grid = document.getElementById('global-grid');
                 grid.innerHTML = '';
                 json.data.forEach(d => {
-                    if(d.name === "GIFT Nifty") return; // Handled manually on top
+                    if(d.name === "GIFT Nifty") return;
                     
                     const colorClass = d.trend === 'up' ? 'text-green' : 'text-red';
                     const icon = d.trend === 'up' ? '▲' : '▼';
@@ -329,4 +317,11 @@
                             <div class="opt-top">
                                 <span class="opt-type ${typeClass}">${o.type}</span>
                                 <span class="opt-strike">Strike: ${o.strike}</span>
-                   
+                                <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
+                            </div>
+                            <div class="opt-meta-row">
+                                <span>Prem: ₹${o.premium}</span>
+                                <span>SL: ₹${o.sl}</span>
+                                <span>Target: ₹${o.target}</span>
+                            </div>
+                            
