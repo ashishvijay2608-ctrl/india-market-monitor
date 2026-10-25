@@ -216,7 +216,7 @@
             document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
         }, 1000);
 
-        // Sparkline Generator for Global Cards
+        // Sparkline Generator
         function generateSparkline(color) {
             const points = [];
             let y = 20;
@@ -237,7 +237,7 @@
                 const grid = document.getElementById('global-grid');
                 grid.innerHTML = '';
                 json.data.forEach(d => {
-                    if(d.name === "GIFT Nifty") return; // Already hardcoded top
+                    if(d.name === "GIFT Nifty") return; // Handled manually on top
                     
                     const colorClass = d.trend === 'up' ? 'text-green' : 'text-red';
                     const icon = d.trend === 'up' ? '▲' : '▼';
@@ -329,4 +329,4 @@
                             <div class="opt-top">
                                 <span class="opt-type ${typeClass}">${o.type}</span>
                                 <span class="opt-strike">Strike: ${o.strike}</span>
-    
+                   
