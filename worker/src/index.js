@@ -14,19 +14,17 @@ export default {
       return Response.json({
         success: true,
         data: [
-          { name: "Nikkei 225", price: "62,693.16", change: "-0.34%", trend: "down", region: "Japan" },
-          { name: "KOSPI", price: "5,550.30", change: "+0.30%", trend: "up", region: "South Korea" },
-          { name: "Brent Crude", price: "$111.70", change: "-1.30%", trend: "down", region: "ICE futures" },
-          { name: "GIFT Nifty", price: "22,535.5", change: "-0.32%", trend: "down", region: "NSE IX" },
-          { name: "India VIX", price: "16.86", change: "+6.98%", trend: "up", region: "NSE" },
-          { name: "Hang Seng", price: "23,093.37", change: "+0.69%", trend: "up", region: "Hong Kong" },
-          { name: "USD/INR", price: "94.930", change: "+0.23%", trend: "up", region: "FX" },
-          { name: "S&P 500 Fut", price: "7,659.75", change: "-0.58%", trend: "down", region: "CME futures" }
+          { name: "Nikkei 225", price: "62,693.16", change: "-0.34%", trend: "down", region: "Japan", symbol: "TVC%3ANI225" },
+          { name: "KOSPI", price: "5,550.30", change: "+0.30%", trend: "up", region: "South Korea", symbol: "KRX%3AKOSPI" },
+          { name: "Brent Crude", price: "$111.70", change: "-1.30%", trend: "down", region: "ICE futures", symbol: "TVC%3AUKOIL" },
+          { name: "GIFT Nifty", price: "22,535.5", change: "-0.32%", trend: "down", region: "NSE IX", symbol: "NSE%3ANIFTY1!" },
+          { name: "India VIX", price: "16.86", change: "+6.98%", trend: "up", region: "NSE", symbol: "NSE%3AINDIAVIX" },
+          { name: "Hang Seng", price: "23,093.37", change: "+0.69%", trend: "up", region: "Hong Kong", symbol: "TVC%3AHSI" }
         ]
       }, { headers: corsHeaders });
     }
 
-    // 2. Sentiment, Breakdown & FII/DII
+    // 2. Sentiment & FII/DII Data
     if (url.pathname === "/api/sentiment") {
       return Response.json({
         success: true,
@@ -52,12 +50,20 @@ export default {
       }, { headers: corsHeaders });
     }
 
-    // 3. Predictor & Options
+    // 3. Gap Predictor & Options
     if (url.pathname === "/api/predictor") {
       return Response.json({
         success: true,
         data: {
-          gap: { direction: "GAP DOWN", points: "-72 pts", percent: "-0.32%", gapUpProb: 15, gapDownProb: 75 },
+          gap: {
+            direction: "GAP DOWN",
+            impliedOpen: "22,528",
+            points: "-72 pts",
+            percent: "-0.32%",
+            gapUpProb: 15,
+            gapDownProb: 75,
+            flatProb: 10
+          },
           options: [
             { id: 1, type: "PUT", strike: 22500, premium: 85.2, sl: 60, prob: "85%", target: "150" },
             { id: 2, type: "CALL", strike: 22700, premium: 45.0, sl: 30, prob: "60%", target: "80" }
