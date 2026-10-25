@@ -3,213 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Market Monitor | Elite Pro</title>
+    <title>India Market Monitor | Institutional Pro</title>
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --panel-bg: #151a24;
-            --text-main: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
-            --accent-yellow: #f59e0b;
-            --border-color: #2d3748;
+            --bg: #0a0c10;
+            --panel: #12161f;
+            --border: #1f2533;
+            --text: #e2e8f0;
+            --muted: #8b95a5;
+            --green: #10b981;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --yellow: #f59e0b;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 15px; padding-bottom: 50px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 15px; padding-bottom: 50px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; position: sticky; top: 0; background: var(--bg-color); z-index: 100; }
-        h1 { font-size: 1.1rem; color: #fff; }
-        
-        .section-title { font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .section-title span { font-size: 0.65rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px; color: var(--text-muted); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .time { font-size: 0.75rem; color: var(--muted); }
 
-        .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+        /* Grid Cards */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; }
         
-        /* Options Table */
-        .options-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; }
-        .options-table th { color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding: 8px 4px; font-weight: 500; text-transform: uppercase; font-size: 0.7rem;}
-        .options-table td { padding: 10px 4px; border-bottom: 1px solid var(--border-color); }
-        
-        .badge { padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
-        .badge-call { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
-        .badge-put { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
-        .badge-watching { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
-        .badge-entry { background: rgba(245, 158, 11, 0.2); color: var(--accent-yellow); }
-        .badge-notrade { background: var(--border-color); color: var(--text-muted); }
-        
-        .text-green { color: var(--accent-green); }
-        .text-red { color: var(--accent-red); }
-        
-        /* Gap Predictor */
-        .gap-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
-        .prob-bar-bg { width: 100%; height: 8px; background: var(--border-color); border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
-        .prob-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+        .c-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .c-region { font-size: 0.65rem; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .c-price { font-size: 1.3rem; font-weight: 700; margin-bottom: 5px; }
+        .c-change { font-size: 0.8rem; font-weight: 600; }
+        .text-green { color: var(--green); }
+        .text-red { color: var(--red); }
 
-        /* Speedometer */
-        .speedometer-bg { width: 100%; height: 16px; background: linear-gradient(to right, var(--accent-red), var(--accent-yellow) 33%, var(--accent-green)); border-radius: 8px; position: relative; margin-top: 10px; }
-        .speedometer-marker { width: 4px; height: 26px; background: white; position: absolute; top: -5px; transition: left 0.5s; border-radius: 2px; box-shadow: 0 0 5px rgba(0,0,0,0.8); }
+        /* Sentiment Gauge */
+        .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Semi-circle Gauge */
+        .gauge-container { position: relative; width: 200px; height: 100px; margin: 0 auto; overflow: hidden; }
+        .gauge-bg { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
+        .gauge-inner { width: 160px; height: 160px; border-radius: 50%; background: var(--panel); position: absolute; top: 20px; left: 20px; }
+        .gauge-needle { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; background: #fff; transform-origin: bottom center; transform: rotate(-45deg); transition: transform 1s ease; z-index: 10; border-radius: 2px; }
+        .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
+        
+        .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
+        .reason-list { text-align: left; margin-top: 20px; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px; }
+        .reason-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+
+        /* Gap Predictor Panel */
+        .pred-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .pred-header { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .gap-main { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .gap-sub { font-size: 0.9rem; margin-bottom: 15px; }
+        .prob-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;}
+        .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
+        /* High Prob Options */
+        .opt-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
+        .opt-type { font-weight: 700; font-size: 0.9rem; padding: 4px 8px; border-radius: 4px; margin-right: 10px; }
+        .type-pe { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .type-ce { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .opt-details { flex-grow: 1; }
+        .opt-strike { font-size: 1rem; font-weight: 700; }
+        .opt-meta { font-size: 0.75rem; color: var(--muted); margin-top: 2px;}
+        .opt-prob { text-align: right; }
+        .prob-val { font-size: 1.1rem; font-weight: 700; color: var(--blue); }
+        .prob-label { font-size: 0.65rem; color: var(--muted); text-transform: uppercase;}
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div>
-            <h1>India Market Monitor</h1>
-            <div style="font-size: 0.7rem; color: var(--accent-blue);">Elite Pro Terminal</div>
+        <h1>India Market Monitor</h1>
+        <div class="time" id="current-time">Loading...</div>
+    </div>
+
+    <!-- GLOBAL MARKETS GRID -->
+    <div class="grid-2" id="global-grid">
+        <!-- Javascript will populate this -->
+    </div>
+
+    <!-- SENTIMENT GAUGE -->
+    <div class="gauge-card">
+        <div class="gauge-title">Bearish Sentiment Gauge</div>
+        <div class="gauge-container">
+            <div class="gauge-bg"></div>
+            <div class="gauge-inner"></div>
+            <div class="gauge-needle" id="needle" style="transform: rotate(-45deg);"></div>
         </div>
-        <div style="font-size: 0.75rem; color: var(--accent-yellow);">DEMO MODE</div>
-    </div>
-
-    <!-- 1. OPTIONS INTELLIGENCE CENTER -->
-    <div class="section-title">01 / Options Intelligence <span>Scanner</span></div>
-    <div class="card" style="padding: 0; overflow-x: auto;">
-        <table class="options-table">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Strike</th>
-                    <th>Premium</th>
-                    <th>Chg%</th>
-                    <th>Signal</th>
-                </tr>
-            </thead>
-            <tbody id="options-body">
-                <tr><td colspan="5" style="text-align:center; padding: 20px;">Loading Demo Data...</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 2. LIVE PREMIUM TRACKER -->
-    <div class="section-title">02 / Live Premium Tracker <span>Speedometer</span></div>
-    <div class="card">
-        <div style="text-align: center; margin-bottom: 5px; font-weight: bold;" id="live-symbol">NIFTY 21500 CE</div>
-        <div style="font-size: 2rem; font-weight: bold; text-align: center; color: #fff;" id="live-premium">₹0.00</div>
+        <div class="gauge-value" id="score-val">-11.5</div>
+        <div class="status-text text-red" id="status-val">Mildly bearish</div>
         
-        <div style="margin-top: 15px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
-                <span>SL: ₹70</span>
-                <span>Entry: ₹100</span>
-                <span>Target: ₹160</span>
-            </div>
-            <div class="speedometer-bg">
-                <div class="speedometer-marker" id="live-marker" style="left: 33%;"></div>
-            </div>
-            <div id="live-status" style="margin-top: 10px; text-align: center; font-size: 0.85rem; font-weight: bold; color: var(--accent-blue);">ACTIVE POSITION</div>
+        <div class="reason-list" id="reasons">
+            <!-- Reasons injected here -->
         </div>
     </div>
 
-    <!-- 3. GAP PREDICTOR -->
-    <div class="section-title">03 / Next-Day Gap Predictor <span>AI</span></div>
-    <div class="card">
-        <div style="text-align: center; margin-bottom: 15px;">
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Predicted Opening</div>
-            <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-green);" id="gap-direction">Loading...</div>
-        </div>
+    <!-- GAP PREDICTOR -->
+    <div class="pred-card">
+        <div class="pred-header">Next-Day Gap Predictor</div>
+        <div class="gap-main text-red" id="gap-dir">GAP DOWN</div>
+        <div class="gap-sub text-red" id="gap-sub">▼ -72 pts (-0.32%)</div>
         
-        <div class="gap-row"><span style="color: var(--accent-green);">Gap Up Probability</span> <span id="gap-up-prob">0%</span></div>
-        <div class="prob-bar-bg"><div class="prob-bar-fill" style="background: var(--accent-green); width: 0%;" id="gap-up-bar"></div></div>
+        <div class="prob-row"><span>Gap Up</span> <span id="up-p">15%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="background: var(--green); width: 15%;" id="up-bar"></div></div>
+        
+        <div class="prob-row"><span>Gap Down</span> <span id="down-p">75%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
+    </div>
 
-        <div class="gap-row"><span style="color: var(--accent-red);">Gap Down Probability</span> <span id="gap-down-prob">0%</span></div>
-        <div class="prob-bar-bg"><div class="prob-bar-fill" style="background: var(--accent-red); width: 0%;" id="gap-down-bar"></div></div>
+    <!-- HIGH PROB OPTIONS -->
+    <div class="pred-card">
+        <div class="pred-header">High-Probability Setups</div>
+        <div class="opt-list" id="options-list">
+            <!-- Options injected here -->
+        </div>
     </div>
 
     <script>
         const API_BASE = "https://india-market-api.ashishvijay2608.workers.dev/api";
 
-        // 1. Fetch Options Chain
-        async function fetchOptions() {
-            try {
-                const res = await fetch(`${API_BASE}/options`);
-                const result = await res.json();
+        // Update Clock
+        setInterval(() => {
+            document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
+        }, 1000);
+
+        // 1. Fetch Global
+        async function fetchGlobal() {
+            const res = await fetch(`${API_BASE}/global`);
+            const json = await res.json();
+            if(json.success) {
+                const grid = document.getElementById('global-grid');
+                grid.innerHTML = '';
+                json.data.forEach(d => {
+                    const colorClass = d.trend === 'up' ? 'text-green' : 'text-red';
+                    const icon = d.trend === 'up' ? '▲' : '▼';
+                    grid.innerHTML += `
+                        <div class="card">
+                            <div class="c-name">${d.name}</div>
+                            <div class="c-region">${d.region}</div>
+                            <div class="c-price">${d.price}</div>
+                            <div class="c-change ${colorClass}">${icon} ${d.change}</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // 2. Fetch Sentiment
+        async function fetchSentiment() {
+            const res = await fetch(`${API_BASE}/sentiment`);
+            const json = await res.json();
+            if(json.success) {
+                const d = json.data;
+                document.getElementById('score-val').innerText = d.score;
+                document.getElementById('status-val').innerText = d.status;
                 
-                if (result.success) {
-                    const tbody = document.getElementById('options-body');
-                    tbody.innerHTML = '';
+                // Rotate Needle (-90deg to +90deg) based on score (-100 to +100)
+                let rotation = (d.score / 100) * 90; 
+                document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
+
+                const reasonsDiv = document.getElementById('reasons');
+                reasonsDiv.innerHTML = '';
+                d.triggers.forEach(t => {
+                    const color = t.active ? 'text-red' : 'text-muted';
+                    reasonsDiv.innerHTML += `
+                        <div class="reason-row">
+                            <span>${t.name}</span>
+                            <span class="${color}">${t.value}</span>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // 3. Fetch Predictor & Options
+        async function fetchPredictor() {
+            const res = await fetch(`${API_BASE}/predictor`);
+            const json = await res.json();
+            if(json.success) {
+                const d = json.data;
+                
+                // Gap Data
+                document.getElementById('gap-dir').innerText = d.gap.direction;
+                document.getElementById('gap-sub').innerText = `▼ ${d.gap.points} (${d.gap.percent})`;
+                
+                document.getElementById('up-p').innerText = d.gap.gapUpProb + "%";
+                document.getElementById('up-bar').style.width = d.gap.gapUpProb + "%";
+                
+                document.getElementById('down-p').innerText = d.gap.gapDownProb + "%";
+                document.getElementById('down-bar').style.width = d.gap.gapDownProb + "%";
+
+                // Options Data
+                const optList = document.getElementById('options-list');
+                optList.innerHTML = '';
+                d.options.forEach(o => {
+                    const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
+                    const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
                     
-                    result.data.forEach(opt => {
-                        const typeClass = opt.type === 'CALL' ? 'badge-call' : 'badge-put';
-                        const chgClass = opt.change >= 0 ? 'text-green' : 'text-red';
-                        const chgSign = opt.change >= 0 ? '+' : '';
-                        
-                        let sigClass = 'badge-notrade';
-                        if(opt.signal === 'WATCHING') sigClass = 'badge-watching';
-                        if(opt.signal === 'ENTRY TRIGGERED') sigClass = 'badge-entry';
-
-                        tbody.innerHTML += `
-                            <tr>
-                                <td><span class="badge ${typeClass}">${opt.type}</span></td>
-                                <td style="font-weight: bold;">${opt.strike}</td>
-                                <td>₹${opt.premium}</td>
-                                <td class="${chgClass}">${chgSign}${opt.change}%</td>
-                                <td><span class="badge ${sigClass}">${opt.signal}</span></td>
-                            </tr>
-                        `;
-                    });
-                }
-            } catch (e) { console.log("Options fetch error"); }
+                    optList.innerHTML += `
+                        <div class="opt-item">
+                            <div class="opt-type ${typeClass}">${o.type}</div>
+                            <div class="opt-details">
+                                <div class="opt-strike">Strike: ${o.strike}</div>
+                                <div class="opt-meta">Prem: ₹${o.premium} · Target: ${o.target}</div>
+                            </div>
+                            <div class="opt-prob">
+                                <div class="prob-val" style="color: ${typeColor};">${o.prob}</div>
+                                <div class="prob-label">Probability</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         }
 
-        // 2. Fetch Live Premium (Speedometer)
-        async function fetchPremium() {
-            try {
-                const res = await fetch(`${API_BASE}/premium`);
-                const result = await res.json();
-                if (result.success) {
-                    const data = result.data;
-                    document.getElementById('live-symbol').innerText = data.symbol;
-                    document.getElementById('live-premium').innerText = "₹" + data.premium.toFixed(2);
-
-                    const entry = 100, sl = 70, target = 160;
-                    const current = data.premium;
-                    let progress = ((current - entry) / (target - entry)) * 100;
-                    if (progress < 0) progress = 0;
-                    if (progress > 100) progress = 100;
-                    let visualLeft = 33 + (progress * 0.67);
-                    
-                    document.getElementById('live-marker').style.left = visualLeft + "%";
-
-                    const statusEl = document.getElementById('live-status');
-                    if (current >= target) {
-                        statusEl.innerText = "🎯 TARGET HIT";
-                        statusEl.style.color = "var(--accent-green)";
-                    } else if (current <= sl) {
-                        statusEl.innerText = "🛑 STOP LOSS HIT";
-                        statusEl.style.color = "var(--accent-red)";
-                    } else {
-                        statusEl.innerText = "ACTIVE POSITION";
-                        statusEl.style.color = "var(--accent-blue)";
-                    }
-                }
-            } catch (e) { console.log("Premium error"); }
-        }
-
-        // 3. Fetch Gap Predictor
-        async function fetchGap() {
-            try {
-                const res = await fetch(`${API_BASE}/gap-predictor`);
-                const result = await res.json();
-                if (result.success) {
-                    const data = result.data;
-                    document.getElementById('gap-direction').innerText = data.direction;
-                    document.getElementById('gap-up-prob').innerText = data.gapUpProb + "%";
-                    document.getElementById('gap-up-bar').style.width = data.gapUpProb + "%";
-                    document.getElementById('gap-down-prob').innerText = data.gapDownProb + "%";
-                    document.getElementById('gap-down-bar').style.width = data.gapDownProb + "%";
-                }
-            } catch (e) { console.log("Gap error"); }
-        }
-
-        // Run on load
-        fetchOptions();
-        fetchPremium();
-        fetchGap();
-
-        // Refresh intervals
-        setInterval(fetchOptions, 10000); // Options every 10s
-        setInterval(fetchPremium, 5000);  // Premium every 5s
-        setInterval(fetchGap, 30000);     // Gap every 30s
+        // Init
+        fetchGlobal();
+        fetchSentiment();
+        fetchPredictor();
     </script>
 </body>
 </html>
