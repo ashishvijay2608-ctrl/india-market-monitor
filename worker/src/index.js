@@ -24,7 +24,7 @@ export default {
       }, { headers: corsHeaders });
     }
 
-    // 2. Sentiment & Crash Triggers
+    // 2. Sentiment & FII/DII Data (Naya)
     if (url.pathname === "/api/sentiment") {
       return Response.json({
         success: true,
@@ -32,11 +32,20 @@ export default {
           score: -11.5,
           status: "Mildly bearish",
           triggers: [
-            { name: "Nikkei down > 2%", active: false, value: "-0.34%" },
-            { name: "KOSPI down > 2%", active: false, value: "+0.30%" },
-            { name: "GIFT Nifty down > 1%", active: false, value: "-0.32%" },
-            { name: "Brent above $100", active: true, value: "$111.70" }
-          ]
+            { name: "GIFT Nifty move", weight: "28%", value: "-0.32%", type: "drag" },
+            { name: "Nikkei 225", weight: "12%", value: "-0.34%", type: "drag" },
+            { name: "KOSPI", weight: "12%", value: "+0.30%", type: "support" },
+            { name: "Hang Seng", weight: "6%", value: "+0.69%", type: "support" },
+            { name: "Brent crude", weight: "14%", value: "$111.70 (-1.30%)", type: "drag" },
+            { name: "India VIX", weight: "8%", value: "16.86 (+7.0%)", type: "drag" },
+            { name: "USD/INR", weight: "4%", value: "94.930 (+0.23%)", type: "drag" }
+          ],
+          fiidii: {
+            latest: { fii: "+888", dii: "+3,235", combined: "+4,123" },
+            s5: { fii: "-1,531", dii: "+7,281", combined: "+5,749" },
+            s10: { fii: "-15,257", dii: "+23,498", combined: "+8,241" },
+            s20: { fii: "-80,642", dii: "+85,362", combined: "+4,720" }
+          }
         }
       }, { headers: corsHeaders });
     }
