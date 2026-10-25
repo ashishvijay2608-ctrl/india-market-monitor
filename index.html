@@ -34,14 +34,14 @@
         .sparkline { width: 100%; height: 100%; }
         .c-meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); }
 
-        /* Upper Gauge Fixed */
+        /* Upper Gauge */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
         .gauge-container { position: relative; width: 200px; height: 100px; margin: 0 auto; overflow: hidden; }
         .gauge-bg { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
         .gauge-inner { width: 160px; height: 160px; border-radius: 50%; background: var(--panel); position: absolute; top: 20px; left: 20px; }
-        /* Fixed Needle */
+        
         .gauge-needle-wrapper { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; transform-origin: bottom center; transition: transform 1s ease; z-index: 10; }
         .gauge-needle { width: 100%; height: 100%; background: #fff; border-radius: 2px; }
         .gauge-pivot { position: absolute; bottom: -6px; left: -6px; width: 16px; height: 16px; background: #fff; border-radius: 50%; z-index: 11; border: 2px solid var(--bg); }
@@ -82,7 +82,7 @@
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
 
-        /* Options List & Speedometers */
+        /* Options */
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -100,7 +100,7 @@
         .lot-input { display: flex; align-items: center; gap: 5px; }
         .lot-input input { width: 40px; background: var(--bg); border: 1px solid var(--border); color: #fff; text-align: center; border-radius: 4px; padding: 2px;}
 
-        /* Premium Speedometer */
+        /* Premium Gauge */
         .prem-gauge-container { position: relative; width: 120px; height: 60px; margin: 15px auto 0; overflow: hidden; }
         .prem-gauge-bg { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
         .prem-gauge-inner { width: 90px; height: 90px; border-radius: 50%; background: var(--bg); position: absolute; top: 15px; left: 15px; }
@@ -154,7 +154,7 @@
         </div>
     </div>
 
-    <!-- UPPER SENTIMENT GAUGE (Fixed) -->
+    <!-- UPPER SENTIMENT GAUGE -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
@@ -220,7 +220,7 @@
         <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
     </div>
 
-    <!-- HIGH PROB OPTIONS WITH SPEEDOMETER -->
+    <!-- HIGH PROB OPTIONS WITH SPEEDOMETER & CALCULATOR -->
     <div class="pred-card">
         <div class="pred-header">High-Probability Options</div>
         <div class="opt-list" id="options-list"></div>
@@ -282,11 +282,9 @@
                 document.getElementById('score-val').innerText = d.score;
                 document.getElementById('status-val').innerText = d.status;
                 
-                // Fix needle rotation
+                // Fix upper needle rotation
                 let rotation = (d.score / 100) * 90; 
-                document.getElementById('upper-needle-wrapper').style.transform = `rotate(${rotation}deg)`;
-
-                const breakdownDiv = document.getElementById('breakdown-list');
+                                const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
                     const isDrag = t.type === 'drag';
@@ -328,11 +326,10 @@
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
                     
-                    // Premium Speedometer Logic (Entry to Target)
                     let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
                     if (progress < 0) progress = 0;
                     if (progress > 100) progress = 100;
-                    let rotation = (progress / 100) * 180 - 90; // -90 to +90 degrees
+                    let rotation = (progress / 100) * 180 - 90; 
 
                     optList.innerHTML += `
                         <div class="opt-item">
@@ -347,7 +344,6 @@
                                 <span>Target: ₹${o.target}</span>
                             </div>
 
-                            <!-- Premium Speedometer -->
                             <div class="prem-gauge-container">
                                 <div class="prem-gauge-bg"></div>
                                 <div class="prem-gauge-inner"></div>
@@ -362,7 +358,6 @@
                                 <span>Target</span>
                             </div>
 
-                            <!-- Lot Calculator -->
                             <div class="lot-calc">
                                 <div class="lot-row">
                                     <span>Lot Size: <b>50</b></span>
@@ -392,37 +387,30 @@
 
         async function fetchNews() {
             try {
-                // Using a more reliable RSS feed source for Indian markets
-                const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en'));
+                const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
                 const data = await res.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.getElementsByTagName("item");
                 
                 const container = document.getElementById('news-container');
                 container.innerHTML = '';
                 
-                if(items.length > 0) {
-                    for(let i=0; i < Math.min(items.length, 5); i++) {
-                        const title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-                        const link = items[i].getElementsByTagName("link")[0].childNodes[0].nodeValue;
-                        const pubDate = items[i].getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
-                                        const sourceName = items[i].getElementsByTagName("source")[0] ? items[i].getElementsByTagName("source")[0].childNodes[0].nodeValue : "Google News";
-                const d = new Date(pubDate);
-                const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
-                
-                container.innerHTML += `
-                    <div class="news-item">
-                        <a href="${link}" target="_blank" class="news-title">${title}</a>
-                        <div class="news-meta">${timeStr} · Source: ${sourceName}</div>
-                    </div>
-                `;
-                    }
+                if(data.status === 'ok' && data.items.length > 0) {
+                    data.items.slice(0, 5).forEach(item => {
+                        const d = new Date(item.pubDate);
+                        const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
+                        
+                        container.innerHTML += `
+                            <div class="news-item">
+                                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
+                                <div class="news-meta">${timeStr} · Source: Google News</div>
+                            </div>
+                        `;
+                    });
                 } else {
-                    container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available.</div>';
+                    container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available right now.</div>';
                 }
             } catch(e) {
-                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news.</div>';
+                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news. Please try again later.</div>';
             }
         }
 
