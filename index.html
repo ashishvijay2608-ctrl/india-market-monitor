@@ -282,6 +282,8 @@
                 const d = json.data;
                 document.getElementById('score-val').innerText = d.score;
                 document.getElementById('status-val').innerText = d.status;
+                document.getElementById('upper-needle-wrapper').style.transform = `rotate(${(d.score / 100) * 90}deg)`;
+
                 const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
@@ -324,7 +326,6 @@
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
                     
-                    // Real-time calculation for speedometer
                     let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
                     if (progress < 0) progress = 0;
                     if (progress > 100) progress = 100;
@@ -430,7 +431,7 @@
                     container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available right now.</div>';
                 }
             } catch(e) {
-                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news. Please try again later.</div>';
+                                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news. Please try again later.</div>';
             }
         }
 
