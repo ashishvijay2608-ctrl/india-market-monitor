@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Market Monitor | Pro</title>
+    <title>India Market Monitor | Pro Terminal</title>
     <style>
         :root {
             --bg: #0a0c10;
@@ -38,8 +38,10 @@
         .text-red { color: var(--red); }
         .text-muted { color: var(--muted); }
 
-        .chart-btn { display: block; width: 100%; text-align: center; padding: 6px; background: var(--bg); border: 1px solid var(--border); color: var(--blue); text-decoration: none; font-size: 0.75rem; border-radius: 6px; font-weight: 600; transition: 0.2s; }
-        .chart-btn:hover { background: var(--border); }
+        /* Live Chart Section */
+        .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; }
+        .chart-header { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; font-weight: bold; display: flex; justify-content: space-between;}
+        .chart-frame { width: 100%; height: 350px; border: none; display: block; }
 
         /* Sentiment Gauge */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
@@ -125,7 +127,6 @@
             </div>
             <div class="c-price">22,150.20</div>
             <div class="c-change text-red">▼ -87.65 (-0.39%)</div>
-            <a href="https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY" target="_blank" class="chart-btn">View Live Chart ↗</a>
         </div>
 
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
@@ -138,13 +139,30 @@
             </div>
             <div class="c-price">73,125.40</div>
             <div class="c-change text-red">▼ -210.50 (-0.29%)</div>
-            <a href="https://www.tradingview.com/chart/?symbol=BSE%3ASENSEX" target="_blank" class="chart-btn">View Live Chart ↗</a>
         </div>
+    </div>
+
+    <!-- LIVE CHART SECTION (NIFTY) -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span>NIFTY 50 Live Chart</span>
+            <span style="color:var(--muted); font-size:0.7rem;">TradingView</span>
+        </div>
+        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
     </div>
 
     <!-- GLOBAL MARKETS GRID -->
     <div class="grid-2" id="global-grid">
         <!-- Javascript will populate this -->
+    </div>
+
+    <!-- LIVE CHART SECTION (GLOBAL) -->
+    <div class="chart-card">
+        <div class="chart-header">
+            <span>GIFT NIFTY Live Chart</span>
+            <span style="color:var(--muted); font-size:0.7rem;">TradingView</span>
+        </div>
+        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY1!&interval=15&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
     </div>
 
     <!-- SENTIMENT GAUGE WITH SCORE BREAKDOWN -->
@@ -176,10 +194,8 @@
             <span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span>
         </div>
         
-        <!-- Mock Bar Chart -->
         <div class="bar-chart-container">
             <div class="bar-center-line"></div>
-            <!-- 10 bars for visual representation -->
             <div class="bar-group"><div class="bar bar-fii" style="height: 80%;"></div><div class="bar bar-dii" style="height: 20%;"></div></div>
             <div class="bar-group"><div class="bar bar-fii" style="height: 60%;"></div><div class="bar bar-dii" style="height: 40%;"></div></div>
             <div class="bar-group"><div class="bar bar-fii" style="height: 30%;"></div><div class="bar bar-dii" style="height: 70%;"></div></div>
@@ -255,7 +271,6 @@
                             </div>
                             <div class="c-price">${d.price}</div>
                             <div class="c-change ${colorClass}">${icon} ${d.change}</div>
-                            <a href="https://www.tradingview.com/chart/?symbol=${d.symbol}" target="_blank" class="chart-btn">View Live Chart ↗</a>
                         </div>
                     `;
                 });
@@ -274,7 +289,6 @@
                 let rotation = (d.score / 100) * 90; 
                 document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
 
-                // Score Breakdown
                 const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
@@ -297,7 +311,6 @@
                     `;
                 });
 
-                // FII/DII Table
                 const tbody = document.getElementById('fiidii-table-body');
                 tbody.innerHTML = `
                     <tr><td>Latest session</td><td class="text-green">${d.fiidii.latest.fii}</td><td class="text-green">${d.fiidii.latest.dii}</td><td class="text-green">${d.fiidii.latest.combined}</td></tr>
@@ -328,12 +341,4 @@
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
                     
-                    optList.innerHTML += `
-                        <div class="opt-item">
-                            <div class="opt-top">
-                                <span class="opt-type ${typeClass}">${o.type}</span>
-                                <span class="opt-strike">Strike: ${o.strike}</span>
-                                <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
-                            </div>
-                            <div class="opt-meta-row">
-                                <span>Prem: ₹${o.pre
+          
