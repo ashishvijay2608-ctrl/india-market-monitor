@@ -19,175 +19,227 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); padding: 15px; padding-bottom: 50px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        /* Sticky Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding: 10px 0; position: sticky; top: 0; background: var(--bg-color); z-index: 100; }
         h1 { font-size: 1.1rem; color: #fff; }
-        
+        .market-status { font-size: 0.75rem; color: var(--accent-yellow); }
+
         .section-title { font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .section-title span { font-size: 0.65rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px; color: var(--text-muted); }
+        .section-title span { font-size: 0.65rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px; color: var(--text-muted); text-transform: uppercase; }
 
         .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
-        .input-group { margin-bottom: 12px; }
-        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
-        .input-group input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: #fff; }
-        
-        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; background: var(--accent-blue); color: white; }
+        /* Gap Predictor Styles */
+        .gap-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
+        .prob-bar-bg { width: 100%; height: 8px; background: var(--border-color); border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
+        .prob-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
 
-        .speedometer-container { text-align: center; margin: 15px 0; }
-        .speedometer-bg { width: 100%; height: 15px; background: linear-gradient(to right, var(--accent-red), var(--accent-yellow), var(--accent-green)); border-radius: 8px; position: relative; }
-        .speedometer-marker { width: 3px; height: 25px; background: white; position: absolute; top: -5px; transition: left 0.5s; border-radius: 2px; }
+        /* Live Premium & Speedometer */
+        .premium-display { font-size: 2.5rem; font-weight: bold; text-align: center; margin: 10px 0; color: #fff; }
+        .speedometer-container { text-align: center; margin: 20px 0; }
+        .speedometer-bg { width: 100%; height: 16px; background: linear-gradient(to right, var(--accent-red), var(--accent-yellow) 33%, var(--accent-green)); border-radius: 8px; position: relative; }
+        .speedometer-marker { width: 4px; height: 26px; background: white; position: absolute; top: -5px; transition: left 0.5s; border-radius: 2px; box-shadow: 0 0 5px rgba(0,0,0,0.8); }
+        .status-badge { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; margin-top: 10px; }
 
-        .news-item { border-bottom: 1px solid var(--border-color); padding: 8px 0; }
-        .news-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; color: #fff; }
-        .news-desc { font-size: 0.75rem; color: var(--text-muted); }
+        /* Global Pulse Table */
+        .pulse-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+        .pulse-row:last-child { border-bottom: none; }
 
+        /* Watchlist Table */
         .watchlist-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .watchlist-table th, .watchlist-table td { padding: 10px 5px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .watchlist-table th { color: var(--text-muted); font-weight: normal; font-size: 0.75rem; text-transform: uppercase; }
         .watchlist-row { cursor: pointer; }
-        
         .trend-badge { padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
         .trend-bullish { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
         .trend-bearish { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
         .trend-neutral { background: #2d3748; color: var(--text-muted); }
-
-        .chart-box { height: 250px; background: #0b0e14; border: 1px dashed var(--border-color); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; }
-        .chart-box:hover { background: rgba(59, 130, 246, 0.1); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>India Market Monitor</h1>
-        <div style="font-size: 0.75rem; color: var(--accent-red); font-weight: bold;">Market Mood: BEARISH</div>
+        <div>
+            <h1>India Market Monitor</h1>
+            <div class="market-status">Market is CLOSED · Next open: 9:15 AM IST</div>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--accent-blue); font-weight: bold;">PRO</div>
     </div>
 
-    <!-- 01. GLOBAL CHARTS -->
-    <div class="section-title">01 / Global Indices <span>Tap to Open</span></div>
-    <div class="grid-2">
-        <a href="https://www.tradingview.com/chart/?symbol=NASDAQ%3ANDX" target="_blank" class="chart-box">
-            <div style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px;">NASDAQ 100</div>
-            <div>Click to View Live Chart ↗</div>
-        </a>
-        <a href="https://www.tradingview.com/chart/?symbol=TVC%3AUSOIL" target="_blank" class="chart-box">
-            <div style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px;">Crude Oil (WTI)</div>
-            <div>Click to View Live Chart ↗</div>
-        </a>
-    </div>
-
-    <!-- 02. NEWS -->
-    <div class="section-title">02 / Market Pulse & News <span>Live</span></div>
+    <!-- 1. GAP PREDICTOR -->
+    <div class="section-title">01 / Next-Day Gap Predictor <span>AI Model</span></div>
     <div class="card">
-        <h3 style="margin-bottom: 10px; color: #fff; font-size: 0.95rem;">Why Gap Down / Bearish?</h3>
-        <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 15px; line-height: 1.5; margin-bottom: 15px;">
-            <li>Crude Oil $117 (Middle East Tension)</li>
-            <li>FIIs selling for 10th week</li>
-            <li>US Fed Meeting on Oct 27-28</li>
-        </ul>
-        <h3 style="margin-bottom: 10px; color: #fff; font-size: 0.95rem;">Latest Headlines</h3>
-        <div id="news-container">
-            <div style="color: var(--text-muted); font-size: 0.8rem;">Loading news...</div>
+        <div style="text-align: center; margin-bottom: 15px;">
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Predicted Opening</div>
+            <div style="font-size: 1.8rem; font-weight: bold; color: var(--accent-green);" id="gap-direction">Loading...</div>
+        </div>
+        
+        <div class="gap-row"><span style="color: var(--accent-green);">Gap Up Probability</span> <span id="gap-up-prob">0%</span></div>
+        <div class="prob-bar-bg"><div class="prob-bar-fill" style="background: var(--accent-green); width: 0%;" id="gap-up-bar"></div></div>
+
+        <div class="gap-row"><span style="color: var(--accent-red);">Gap Down Probability</span> <span id="gap-down-prob">0%</span></div>
+        <div class="prob-bar-bg"><div class="prob-bar-fill" style="background: var(--accent-red); width: 0%;" id="gap-down-bar"></div></div>
+
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px;">
+            <strong style="color: #fff;">Reasons:</strong>
+            <ul id="gap-reasons" style="padding-left: 15px; margin-top: 5px; line-height: 1.5;">
+                <li>Loading data...</li>
+            </ul>
+        </div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px; text-align: center;">
+            *Probabilities are based on simulated data for testing.
         </div>
     </div>
 
-    <!-- 03. SPEEDOMETER -->
-    <div class="section-title">03 / Option Planner <span>Speedometer</span></div>
+    <!-- 2. LIVE OPTION PREMIUM TRACKER -->
+    <div class="section-title">02 / Live Premium Tracker <span>Speedometer</span></div>
     <div class="card">
-        <div class="grid-2">
-            <div class="input-group"><label>Entry Premium (₹)</label><input type="number" id="entry" value="100"></div>
-            <div class="input-group"><label>Stop Loss (₹)</label><input type="number" id="sl" value="70"></div>
-            <div class="input-group"><label>Target (₹)</label><input type="number" id="target" value="160"></div>
-        </div>
-        <button class="btn" onclick="calcSpeedometer()">Check Risk / Reward</button>
+        <div style="font-size: 0.9rem; text-align: center; color: var(--text-muted);">NIFTY 21500 CE</div>
+        <div class="premium-display" id="live-premium">₹0.00</div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted);">Last updated: <span id="premium-time">--:--</span></div>
         
         <div class="speedometer-container">
-            <div class="speedometer-bg">
-                <div class="speedometer-marker" id="marker" style="left: 0%;"></div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; color: var(--text-muted);">
+                <span>SL: ₹70</span>
+                <span>Entry: ₹100</span>
+                <span>Target: ₹160</span>
             </div>
-            <div id="status-text" style="margin-top: 10px; font-weight: bold; font-size: 0.9rem; color: var(--text-muted);">Enter values</div>
+            <div class="speedometer-bg">
+                <!-- Marker starts at 33% (Entry) -->
+                <div class="speedometer-marker" id="live-marker" style="left: 33%;"></div>
+            </div>
+            <div id="live-status" class="status-badge" style="background: var(--border-color); color: var(--text-muted);">WAITING FOR DATA</div>
         </div>
     </div>
 
-    <!-- 04. WATCHLIST -->
+    <!-- 3. GLOBAL MARKET PULSE -->
+    <div class="section-title">03 / Global Market Pulse <span>Simulated</span></div>
+    <div class="card" style="padding: 10px 15px;">
+        <div class="pulse-row">
+            <span>US Markets (NASDAQ)</span>
+            <span style="color: var(--accent-green);">+0.5%</span>
+        </div>
+        <div class="pulse-row">
+            <span>GIFT NIFTY</span>
+            <span style="color: var(--accent-green);">+0.4%</span>
+        </div>
+        <div class="pulse-row">
+            <span>Crude Oil</span>
+            <span style="color: var(--accent-red);">-1.2%</span>
+        </div>
+        <div class="pulse-row">
+            <span>India VIX</span>
+            <span style="color: var(--accent-yellow);">16.86 (+6%)</span>
+        </div>
+    </div>
+
+    <!-- 4. MARKET WATCHLIST -->
     <div class="section-title">04 / Watchlist <span>Tap to Open</span></div>
     <div class="card" style="padding: 0; overflow: hidden;">
         <table class="watchlist-table">
-            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem;">
-                <th>Instrument</th><th>Trend</th><th>Chart</th>
-            </tr>
-            <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY', '_blank')">
-                <td style="font-weight: 600;">NIFTY 50</td>
-                <td><span class="trend-badge trend-bearish">Bearish</span></td>
-                <td style="color: var(--accent-blue);">Open ↗</td>
-            </tr>
-            <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=BSE%3ASENSEX', '_blank')">
-                <td style="font-weight: 600;">SENSEX</td>
-                <td><span class="trend-badge trend-bearish">Bearish</span></td>
-                <td style="color: var(--accent-blue);">Open ↗</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Instrument</th>
+                    <th>Trend</th>
+                    <th>Chart</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY', '_blank')">
+                    <td style="font-weight: 600;">NIFTY 50</td>
+                    <td><span class="trend-badge trend-bearish">Bearish</span></td>
+                    <td style="color: var(--accent-blue);">Open ↗</td>
+                </tr>
+                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=BSE%3ASENSEX', '_blank')">
+                    <td style="font-weight: 600;">SENSEX</td>
+                    <td><span class="trend-badge trend-bearish">Bearish</span></td>
+                    <td style="color: var(--accent-blue);">Open ↗</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
     <script>
-        // Live News
-        async function fetchLiveNews() {
+        const API_BASE = "https://india-market-api.ashishvijay2608.workers.dev/api";
+
+        // --- 1. FETCH GAP PREDICTOR ---
+        async function fetchGapPredictor() {
             try {
-                const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
-                const data = await res.json();
-                const container = document.getElementById('news-container');
+                const res = await fetch(`${API_BASE}/gap-predictor`);
+                const result = await res.json();
                 
-                if(!data.items || data.items.length === 0) {
-                    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem;">No news available.</div>';
-                    return;
+                if (result.success) {
+                    const data = result.data;
+                    document.getElementById('gap-direction').innerText = data.direction;
+                    
+                    document.getElementById('gap-up-prob').innerText = data.gapUpProb + "%";
+                    document.getElementById('gap-up-bar').style.width = data.gapUpProb + "%";
+                    
+                    document.getElementById('gap-down-prob').innerText = data.gapDownProb + "%";
+                    document.getElementById('gap-down-bar').style.width = data.gapDownProb + "%";
+
+                    const reasonsList = document.getElementById('gap-reasons');
+                    reasonsList.innerHTML = '';
+                    data.reasons.forEach(reason => {
+                        reasonsList.innerHTML += `<li>${reason}</li>`;
+                    });
                 }
-
-                container.innerHTML = '';
-                data.items.slice(0, 3).forEach(item => {
-                    container.innerHTML += `
-                        <div class="news-item">
-                            <div class="news-title">${item.title}</div>
-                        </div>
-                    `;
-                });
-            } catch (e) {
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem;">Failed to load news.</div>';
-            }
+            } catch (e) { console.log("Gap predictor error"); }
         }
-        fetchLiveNews();
 
-        // Speedometer
-        function calcSpeedometer() {
-            const entry = parseFloat(document.getElementById('entry').value);
-            const sl = parseFloat(document.getElementById('sl').value);
-            const target = parseFloat(document.getElementById('target').value);
-            
-            if (!entry || !sl || !target) return;
-            const risk = entry - sl;
-            const reward = target - entry;
-            if (risk <= 0) { 
-                document.getElementById('status-text').innerText = "Error: SL must be below Entry";
-                return; 
-            }
-            
-            const rr = reward / risk;
-            let percent = (rr / 3) * 100; 
-            if (percent > 100) percent = 100;
-            if (percent < 0) percent = 0;
+        // --- 2. FETCH LIVE PREMIUM ---
+        async function fetchLivePremium() {
+            try {
+                const res = await fetch(`${API_BASE}/premium`);
+                const result = await res.json();
 
-            document.getElementById('marker').style.left = percent + "%";
-            const status = document.getElementById('status-text');
-            
-            if (rr >= 2) {
-                status.innerText = `EXCELLENT (R:R 1:${rr.toFixed(1)})`;
-                status.style.color = "var(--accent-green)";
-            } else if (rr >= 1) {
-                status.innerText = `GOOD (R:R 1:${rr.toFixed(1)})`;
-                status.style.color = "var(--accent-yellow)";
-            } else {
-                status.innerText = `POOR (R:R 1:${rr.toFixed(1)}) - Avoid`;
-                status.style.color = "var(--accent-red)";
-            }
+                if (result.success) {
+                    const data = result.data;
+                    document.getElementById('live-premium').innerText = "₹" + data.premium.toFixed(2);
+                    document.getElementById('premium-time').innerText = data.timestamp;
+
+                    // Speedometer Logic
+                    const entry = 100, sl = 70, target = 160;
+                    const current = data.premium;
+                    
+                    // Calculate progress (0 to 100)
+                    let progress = ((current - entry) / (target - entry)) * 100;
+                    if (progress < 0) progress = 0;
+                    if (progress > 100) progress = 100;
+
+                    // Adjust marker position (33% is entry, 100% is target)
+                    let visualLeft = 33 + (progress * 0.67);
+                    
+                    const marker = document.getElementById('live-marker');
+                    marker.style.left = visualLeft + "%";
+
+                    // Status Logic
+                    const statusEl = document.getElementById('live-status');
+                    if (current >= target) {
+                        statusEl.innerText = "🎯 TARGET HIT";
+                        statusEl.style.background = "rgba(16, 185, 129, 0.2)";
+                        statusEl.style.color = "var(--accent-green)";
+                    } else if (current <= sl) {
+                        statusEl.innerText = "🛑 STOP LOSS HIT";
+                        statusEl.style.background = "rgba(239, 68, 68, 0.2)";
+                        statusEl.style.color = "var(--accent-red)";
+                    } else {
+                        statusEl.innerText = "ACTIVE POSITION";
+                        statusEl.style.background = "rgba(59, 130, 246, 0.2)";
+                        statusEl.style.color = "var(--accent-blue)";
+                    }
+                }
+            } catch (e) { console.log("Premium fetch error"); }
         }
+
+        // Initial Fetch
+        fetchGapPredictor();
+        fetchLivePremium();
+
+        // Auto Refresh
+        setInterval(fetchGapPredictor, 15000);
+        setInterval(fetchLivePremium, 5000);
     </script>
 </body>
 </html>
