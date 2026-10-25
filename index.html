@@ -17,162 +17,119 @@
             --border-color: #2d3748;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; padding-bottom: 50px; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 15px; padding-bottom: 50px; }
         
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-        h1 { font-size: 1.2rem; color: #fff; letter-spacing: 0.5px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        h1 { font-size: 1.1rem; color: #fff; }
         
-        /* Sections */
-        .section-title { font-size: 1.1rem; font-weight: 600; margin: 25px 0 15px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .section-title span { font-size: 0.75rem; background: var(--border-color); padding: 2px 8px; border-radius: 4px; color: var(--text-muted); text-transform: uppercase; }
+        .section-title { font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .section-title span { font-size: 0.65rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px; color: var(--text-muted); }
 
-        /* Cards */
-        .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+        .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
-        /* Inputs */
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: #fff; font-size: 1rem; }
-        .input-group input:focus { outline: none; border-color: var(--accent-blue); }
+        .input-group { margin-bottom: 12px; }
+        .input-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+        .input-group input { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: #fff; }
         
-        /* Buttons */
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; background: var(--accent-blue); color: white; transition: 0.2s; }
-        .btn:hover { background: #2563eb; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; background: var(--accent-blue); color: white; }
 
-        /* Speedometer */
-        .speedometer-container { text-align: center; margin: 20px 0; }
-        .speedometer-bg { width: 100%; height: 20px; background: linear-gradient(to right, var(--accent-red), var(--accent-yellow), var(--accent-green)); border-radius: 10px; position: relative; }
-        .speedometer-marker { width: 4px; height: 30px; background: white; position: absolute; top: -5px; transition: left 0.5s; border-radius: 2px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .speedometer-container { text-align: center; margin: 15px 0; }
+        .speedometer-bg { width: 100%; height: 15px; background: linear-gradient(to right, var(--accent-red), var(--accent-yellow), var(--accent-green)); border-radius: 8px; position: relative; }
+        .speedometer-marker { width: 3px; height: 25px; background: white; position: absolute; top: -5px; transition: left 0.5s; border-radius: 2px; }
 
-        /* News List */
-        .news-item { border-bottom: 1px solid var(--border-color); padding: 10px 0; }
-        .news-item:last-child { border-bottom: none; }
-        .news-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: #fff; }
-        .news-desc { font-size: 0.8rem; color: var(--text-muted); }
+        .news-item { border-bottom: 1px solid var(--border-color); padding: 8px 0; }
+        .news-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; color: #fff; }
+        .news-desc { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Table */
-        .watchlist-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .watchlist-table th, .watchlist-table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        .watchlist-table th { color: var(--text-muted); font-weight: normal; font-size: 0.8rem; text-transform: uppercase; }
-        .watchlist-row { cursor: pointer; transition: background 0.2s; }
-        .watchlist-row:hover { background: rgba(59, 130, 246, 0.1); }
+        .watchlist-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .watchlist-table th, .watchlist-table td { padding: 10px 5px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .watchlist-row { cursor: pointer; }
         
-        .trend-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        .trend-badge { padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
         .trend-bullish { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
         .trend-bearish { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
         .trend-neutral { background: #2d3748; color: var(--text-muted); }
 
-        /* Chart Container */
-        .chart-container { height: 250px; background: #0b0e14; border-radius: 8px; overflow: hidden; position: relative; }
+        .chart-box { height: 250px; background: #0b0e14; border: 1px dashed var(--border-color); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; }
+        .chart-box:hover { background: rgba(59, 130, 246, 0.1); }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>India Market Monitor</h1>
-        <div style="font-size: 0.8rem; color: var(--accent-red); font-weight: bold;">Market: BEARISH</div>
+        <div style="font-size: 0.75rem; color: var(--accent-red); font-weight: bold;">Market Mood: BEARISH</div>
     </div>
 
-    <!-- 01. GLOBAL LIVE CHARTS -->
-    <div class="section-title">01 / Global Live Charts <span>TradingView</span></div>
+    <!-- 01. GLOBAL CHARTS -->
+    <div class="section-title">01 / Global Indices <span>Tap to Open</span></div>
     <div class="grid-2">
-        <div class="card" style="padding: 0;">
-            <div class="chart-container">
-                <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ%3ANDX&interval=15&theme=dark&style=1&locale=en" style="width:100%;height:100%;"></iframe>
-            </div>
-            <div style="text-align: center; padding: 10px; font-size: 0.8rem; color: var(--text-muted);">NASDAQ 100 (US Tech)</div>
-        </div>
-        <div class="card" style="padding: 0;">
-            <div class="chart-container">
-                <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=TVC%3AUSOIL&interval=15&theme=dark&style=1&locale=en" style="width:100%;height:100%;"></iframe>
-            </div>
-            <div style="text-align: center; padding: 10px; font-size: 0.8rem; color: var(--text-muted);">Crude Oil (WTI)</div>
+        <a href="https://www.tradingview.com/chart/?symbol=NASDAQ%3ANDX" target="_blank" class="chart-box">
+            <div style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px;">NASDAQ 100</div>
+            <div>Click to View Live Chart ↗</div>
+        </a>
+        <a href="https://www.tradingview.com/chart/?symbol=TVC%3AUSOIL" target="_blank" class="chart-box">
+            <div style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 5px;">Crude Oil (WTI)</div>
+            <div>Click to View Live Chart ↗</div>
+        </a>
+    </div>
+
+    <!-- 02. NEWS -->
+    <div class="section-title">02 / Market Pulse & News <span>Live</span></div>
+    <div class="card">
+        <h3 style="margin-bottom: 10px; color: #fff; font-size: 0.95rem;">Why Gap Down / Bearish?</h3>
+        <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 15px; line-height: 1.5; margin-bottom: 15px;">
+            <li>Crude Oil $117 (Middle East Tension)</li>
+            <li>FIIs selling for 10th week</li>
+            <li>US Fed Meeting on Oct 27-28</li>
+        </ul>
+        <h3 style="margin-bottom: 10px; color: #fff; font-size: 0.95rem;">Latest Headlines</h3>
+        <div id="news-container">
+            <div style="color: var(--text-muted); font-size: 0.8rem;">Loading news...</div>
         </div>
     </div>
 
-    <!-- 02. MARKET PULSE & NEWS -->
-    <div class="section-title">02 / Market Pulse & News <span>Reason for Gap</span></div>
-    <div class="grid-2">
-        <div class="card">
-            <h3 style="margin-bottom: 15px; color: #fff;">Why Gap Down / Bearish?</h3>
-            <ul style="font-size: 0.9rem; color: var(--text-muted); padding-left: 20px; line-height: 1.6;">
-                <li><b>Crude Oil Tension:</b> Brent Crude $117 ke paas hai (Middle East tension).</li>
-                <li><b>FII Selling:</b> Foreign investors lagatar 10 hafte se bech rahe hain.</li>
-                <li><b>US Fed Meeting:</b> 27-28 October ko US Fed ka meeting hai. Market risk lena nahi cha raha.</li>
-                <li><b>India VIX:</b> 16.86 (+6.96%) - Volatility badh rahi hai.</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3 style="margin-bottom: 15px; color: #fff;">Latest Live News</h3>
-            <div id="news-container">
-                <div style="color: var(--text-muted); font-size: 0.9rem;">Loading news...</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 03. OPTION ENTRY & EXIT SPEEDOMETER -->
-    <div class="section-title">03 / Option Entry & Exit Planner <span>Speedometer</span></div>
+    <!-- 03. SPEEDOMETER -->
+    <div class="section-title">03 / Option Planner <span>Speedometer</span></div>
     <div class="card">
         <div class="grid-2">
-            <div>
-                <div class="input-group"><label>Entry Premium (₹)</label><input type="number" id="entry" value="100"></div>
-                <div class="input-group"><label>Stop Loss (₹)</label><input type="number" id="sl" value="70"></div>
-                <div class="input-group"><label>Target (₹)</label><input type="number" id="target" value="160"></div>
+            <div class="input-group"><label>Entry Premium (₹)</label><input type="number" id="entry" value="100"></div>
+            <div class="input-group"><label>Stop Loss (₹)</label><input type="number" id="sl" value="70"></div>
+            <div class="input-group"><label>Target (₹)</label><input type="number" id="target" value="160"></div>
+        </div>
+        <button class="btn" onclick="calcSpeedometer()">Check Risk / Reward</button>
+        
+        <div class="speedometer-container">
+            <div class="speedometer-bg">
+                <div class="speedometer-marker" id="marker" style="left: 0%;"></div>
             </div>
-            <div>
-                <button class="btn" onclick="calcSpeedometer()">Check Position (Enter Data)</button>
-                <div class="speedometer-container">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px;">Risk / Reward Meter</div>
-                    <div class="speedometer-bg">
-                        <div class="speedometer-marker" id="marker" style="left: 0%;"></div>
-                    </div>
-                    <div id="status-text" style="margin-top: 15px; font-weight: bold; font-size: 1.1rem; color: var(--text-muted);">Enter values to check</div>
-                </div>
-            </div>
+            <div id="status-text" style="margin-top: 10px; font-weight: bold; font-size: 0.9rem; color: var(--text-muted);">Enter values</div>
         </div>
     </div>
 
-    <!-- 04. MARKET WATCHLIST -->
-    <div class="section-title">04 / Market Watchlist <span>Click to Open Chart</span></div>
+    <!-- 04. WATCHLIST -->
+    <div class="section-title">04 / Watchlist <span>Tap to Open</span></div>
     <div class="card" style="padding: 0; overflow: hidden;">
         <table class="watchlist-table">
-            <thead>
-                <tr>
-                    <th>Instrument</th>
-                    <th>Trend</th>
-                    <th>Chart</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY', '_blank')">
-                    <td style="font-weight: 600;">NIFTY 50</td>
-                    <td><span class="trend-badge trend-bearish">Bearish</span></td>
-                    <td style="color: var(--accent-blue); font-weight: 600;">Open ↗</td>
-                </tr>
-                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=BSE%3ASENSEX', '_blank')">
-                    <td style="font-weight: 600;">SENSEX</td>
-                    <td><span class="trend-badge trend-bearish">Bearish</span></td>
-                    <td style="color: var(--accent-blue); font-weight: 600;">Open ↗</td>
-                </tr>
-                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3AINDIAVIX', '_blank')">
-                    <td style="font-weight: 600;">India VIX</td>
-                    <td><span class="trend-badge trend-neutral">High</span></td>
-                    <td style="color: var(--accent-blue); font-weight: 600;">Open ↗</td>
-                </tr>
-                <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY1!', '_blank')">
-                    <td style="font-weight: 600;">GIFT NIFTY</td>
-                    <td><span class="trend-badge trend-bearish">Bearish</span></td>
-                    <td style="color: var(--accent-blue); font-weight: 600;">Open ↗</td>
-                </tr>
-            </tbody>
+            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem;">
+                <th>Instrument</th><th>Trend</th><th>Chart</th>
+            </tr>
+            <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY', '_blank')">
+                <td style="font-weight: 600;">NIFTY 50</td>
+                <td><span class="trend-badge trend-bearish">Bearish</span></td>
+                <td style="color: var(--accent-blue);">Open ↗</td>
+            </tr>
+            <tr class="watchlist-row" onclick="window.open('https://www.tradingview.com/chart/?symbol=BSE%3ASENSEX', '_blank')">
+                <td style="font-weight: 600;">SENSEX</td>
+                <td><span class="trend-badge trend-bearish">Bearish</span></td>
+                <td style="color: var(--accent-blue);">Open ↗</td>
+            </tr>
         </table>
     </div>
 
     <script>
-        // --- 1. LIVE NEWS FETCHING ---
+        // Live News
         async function fetchLiveNews() {
             try {
                 const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
@@ -180,58 +137,46 @@
                 const container = document.getElementById('news-container');
                 
                 if(!data.items || data.items.length === 0) {
-                    container.innerHTML = '<div style="color: var(--text-muted);">No news available.</div>';
+                    container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem;">No news available.</div>';
                     return;
                 }
 
                 container.innerHTML = '';
                 data.items.slice(0, 3).forEach(item => {
-                    // Basic date formatting
-                    const d = new Date(item.pubDate);
-                    const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
                     container.innerHTML += `
                         <div class="news-item">
                             <div class="news-title">${item.title}</div>
-                            <div class="news-desc">${timeStr} · Source: Google News</div>
                         </div>
                     `;
                 });
             } catch (e) {
-                document.getElementById('news-container').innerHTML = '<div style="color: var(--text-muted);">Failed to load news.</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem;">Failed to load news.</div>';
             }
         }
         fetchLiveNews();
 
-        // --- 2. SPEEDOMETER LOGIC ---
+        // Speedometer
         function calcSpeedometer() {
             const entry = parseFloat(document.getElementById('entry').value);
             const sl = parseFloat(document.getElementById('sl').value);
             const target = parseFloat(document.getElementById('target').value);
             
             if (!entry || !sl || !target) return;
-
             const risk = entry - sl;
             const reward = target - entry;
-            
             if (risk <= 0) { 
-                document.getElementById('status-text').innerText = "Error: Stop Loss must be below Entry";
-                document.getElementById('status-text').style.color = "var(--accent-red)";
+                document.getElementById('status-text').innerText = "Error: SL must be below Entry";
                 return; 
             }
             
             const rr = reward / risk;
-            
-            // Map RR to 0-100% for speedometer
             let percent = (rr / 3) * 100; 
             if (percent > 100) percent = 100;
             if (percent < 0) percent = 0;
 
-            // Move Marker
             document.getElementById('marker').style.left = percent + "%";
-
-            // Update Text
             const status = document.getElementById('status-text');
+            
             if (rr >= 2) {
                 status.innerText = `EXCELLENT (R:R 1:${rr.toFixed(1)})`;
                 status.style.color = "var(--accent-green)";
