@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>India Market Monitor | Pro Terminal</title>
+    <title>India Market Monitor | Pro</title>
     <style>
         :root {
             --bg: #0a0c10;
@@ -36,6 +36,7 @@
         .c-change { font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;}
         .text-green { color: var(--green); }
         .text-red { color: var(--red); }
+        .text-muted { color: var(--muted); }
 
         .chart-btn { display: block; width: 100%; text-align: center; padding: 6px; background: var(--bg); border: 1px solid var(--border); color: var(--blue); text-decoration: none; font-size: 0.75rem; border-radius: 6px; font-weight: 600; transition: 0.2s; }
         .chart-btn:hover { background: var(--border); }
@@ -51,10 +52,51 @@
         .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
         
         .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
-        .reason-list { text-align: left; margin-top: 20px; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 15px; }
-        .reason-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
 
-        /* Gap Predictor Panel */
+        /* Score Breakdown */
+        .score-section { text-align: left; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .score-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between;}
+        
+        .factor-row { margin-bottom: 12px; }
+        .factor-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px; }
+        .factor-weight { font-size: 0.7rem; color: var(--muted); }
+        .factor-bar-bg { width: 100%; height: 6px; background: var(--border); border-radius: 3px; position: relative; }
+        .factor-bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 6px; background: #555; }
+        .factor-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: -1px; transform: translateX(-50%); }
+
+        /* FII/DII Section */
+        .fiidii-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .fiidii-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 15px; color: var(--text); font-weight: 600;}
+        
+        /* Chart Placeholder for Bars */
+        .bar-chart-container { display: flex; align-items: flex-end; height: 120px; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
+        .bar-group { flex: 1; display: flex; justify-content: center; gap: 2px; height: 100%; align-items: flex-end; position: relative;}
+        .bar { width: 6px; border-radius: 2px 2px 0 0; transition: height 0.3s; }
+        .bar-fii { background: var(--yellow); }
+        .bar-dii { background: var(--blue); }
+        .bar-center-line { position: absolute; width: 100%; height: 1px; background: var(--border); top: 50%; left: 0;}
+
+        /* Flow Summary Table */
+        .flow-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 15px; }
+        .flow-table th { text-align: left; color: var(--muted); font-weight: normal; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .flow-table td { padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .flow-table td:not(:first-child) { text-align: right; }
+        .flow-table th:not(:first-child) { text-align: right; }
+
+        /* Options List */
+        .opt-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
+        .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+        .opt-type { font-weight: 700; font-size: 0.8rem; padding: 3px 8px; border-radius: 4px; }
+        .type-pe { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .type-ce { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .opt-strike { font-size: 1rem; font-weight: 700; flex-grow: 1; margin-left: 10px;}
+        .opt-prob { font-size: 1rem; font-weight: 700; color: var(--blue); }
+        .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
+        .opt-meta-row span { color: #fff; font-weight: 600;}
+        .mini-gauge-bg { width: 100%; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow) 30%, var(--green)); border-radius: 4px; position: relative; margin-top: 10px;}
+        .mini-gauge-marker { width: 3px; height: 14px; background: white; position: absolute; top: -3px; border-radius: 2px; box-shadow: 0 0 3px #000;}
+        
         .pred-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
         .pred-header { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display: flex; justify-content: space-between;}
         .gap-main { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
@@ -62,25 +104,6 @@
         .prob-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;}
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
-
-        /* Options List */
-        .opt-list { display: flex; flex-direction: column; gap: 10px; }
-        .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
-        
-        .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
-        .opt-type { font-weight: 700; font-size: 0.8rem; padding: 3px 8px; border-radius: 4px; }
-        .type-pe { background: rgba(239, 68, 68, 0.2); color: var(--red); }
-        .type-ce { background: rgba(16, 185, 129, 0.2); color: var(--green); }
-        
-        .opt-strike { font-size: 1rem; font-weight: 700; flex-grow: 1; margin-left: 10px;}
-        .opt-prob { font-size: 1rem; font-weight: 700; color: var(--blue); }
-        
-        .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
-        .opt-meta-row span { color: #fff; font-weight: 600;}
-        
-        /* Mini Speedometer */
-        .mini-gauge-bg { width: 100%; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow) 30%, var(--green)); border-radius: 4px; position: relative; margin-top: 10px;}
-        .mini-gauge-marker { width: 3px; height: 14px; background: white; position: absolute; top: -3px; border-radius: 2px; box-shadow: 0 0 3px #000;}
     </style>
 </head>
 <body>
@@ -90,7 +113,7 @@
         <div class="time" id="current-time">Loading...</div>
     </div>
 
-    <!-- INDIAN INDICES (NIFTY & SENSEX) -->
+    <!-- INDIAN INDICES -->
     <div class="grid-2" style="margin-bottom: 20px;">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
@@ -124,7 +147,7 @@
         <!-- Javascript will populate this -->
     </div>
 
-    <!-- SENTIMENT GAUGE -->
+    <!-- SENTIMENT GAUGE WITH SCORE BREAKDOWN -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
@@ -135,9 +158,52 @@
         <div class="gauge-value" id="score-val">-11.5</div>
         <div class="status-text text-red" id="status-val">Mildly bearish</div>
         
-        <div class="reason-list" id="reasons">
-            <!-- Reasons injected here -->
+        <div class="score-section">
+            <div class="score-title">
+                <span>Score Breakdown</span>
+                <span>How each input moves the gauge</span>
+            </div>
+            <div id="breakdown-list">
+                <!-- Breakdown factors will load here -->
+            </div>
         </div>
+    </div>
+
+    <!-- FII/DII ACTIVITY -->
+    <div class="fiidii-card">
+        <div class="fiidii-header">
+            <span>FII / DII ACTIVITY</span>
+            <span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span>
+        </div>
+        
+        <!-- Mock Bar Chart -->
+        <div class="bar-chart-container">
+            <div class="bar-center-line"></div>
+            <!-- 10 bars for visual representation -->
+            <div class="bar-group"><div class="bar bar-fii" style="height: 80%;"></div><div class="bar bar-dii" style="height: 20%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 60%;"></div><div class="bar bar-dii" style="height: 40%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 30%;"></div><div class="bar bar-dii" style="height: 70%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 50%;"></div><div class="bar bar-dii" style="height: 50%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 90%;"></div><div class="bar bar-dii" style="height: 10%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 70%;"></div><div class="bar bar-dii" style="height: 30%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 20%;"></div><div class="bar bar-dii" style="height: 80%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 40%;"></div><div class="bar bar-dii" style="height: 60%;"></div></div>
+        </div>
+
+        <div class="score-title" style="margin-bottom:10px;">Flow Summary <span>As of 23 Oct 2026</span></div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th>Window</th>
+                    <th>FII net</th>
+                    <th>DII net</th>
+                    <th>Combined</th>
+                </tr>
+            </thead>
+            <tbody id="fiidii-table-body">
+                <!-- Data loads here -->
+            </tbody>
+        </table>
     </div>
 
     <!-- GAP PREDICTOR -->
@@ -168,7 +234,7 @@
             document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
         }, 1000);
 
-        // 1. Fetch Global Data
+        // 1. Fetch Global
         async function fetchGlobal() {
             const res = await fetch(`${API_BASE}/global`);
             const json = await res.json();
@@ -196,7 +262,7 @@
             }
         }
 
-        // 2. Fetch Sentiment
+        // 2. Fetch Sentiment, Breakdown & FII/DII
         async function fetchSentiment() {
             const res = await fetch(`${API_BASE}/sentiment`);
             const json = await res.json();
@@ -208,17 +274,37 @@
                 let rotation = (d.score / 100) * 90; 
                 document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
 
-                const reasonsDiv = document.getElementById('reasons');
-                reasonsDiv.innerHTML = '';
+                // Score Breakdown
+                const breakdownDiv = document.getElementById('breakdown-list');
+                breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
-                    const color = t.active ? 'text-red' : 'text-muted';
-                    reasonsDiv.innerHTML += `
-                        <div class="reason-row">
-                            <span>${t.name}</span>
-                            <span class="${color}">${t.value}</span>
+                    const isDrag = t.type === 'drag';
+                    const color = isDrag ? 'var(--red)' : 'var(--green)';
+                    const leftPosition = isDrag ? (50 - (Math.abs(parseFloat(t.value)) * 5)) : (50 + (Math.abs(parseFloat(t.value)) * 5));
+                    
+                    breakdownDiv.innerHTML += `
+                        <div class="factor-row">
+                            <div class="factor-header">
+                                <span>${t.name}</span>
+                                <span style="color: ${color};">${t.value}</span>
+                            </div>
+                            <div style="font-size:0.65rem; color:var(--muted); margin-bottom:2px;">Weight ${t.weight}</div>
+                            <div class="factor-bar-bg">
+                                <div class="factor-bar-center"></div>
+                                <div class="factor-dot" style="left: ${leftPosition}%; background: ${color};"></div>
+                            </div>
                         </div>
                     `;
                 });
+
+                // FII/DII Table
+                const tbody = document.getElementById('fiidii-table-body');
+                tbody.innerHTML = `
+                    <tr><td>Latest session</td><td class="text-green">${d.fiidii.latest.fii}</td><td class="text-green">${d.fiidii.latest.dii}</td><td class="text-green">${d.fiidii.latest.combined}</td></tr>
+                    <tr><td>5 sessions</td><td class="text-red">${d.fiidii.s5.fii}</td><td class="text-green">${d.fiidii.s5.dii}</td><td class="text-green">${d.fiidii.s5.combined}</td></tr>
+                    <tr><td>10 sessions</td><td class="text-red">${d.fiidii.s10.fii}</td><td class="text-green">${d.fiidii.s10.dii}</td><td class="text-green">${d.fiidii.s10.combined}</td></tr>
+                    <tr><td>20 sessions</td><td class="text-red">${d.fiidii.s20.fii}</td><td class="text-green">${d.fiidii.s20.dii}</td><td class="text-green">${d.fiidii.s20.combined}</td></tr>
+                `;
             }
         }
 
@@ -231,10 +317,8 @@
                 
                 document.getElementById('gap-dir').innerText = d.gap.direction;
                 document.getElementById('gap-sub').innerText = `▼ ${d.gap.points} (${d.gap.percent})`;
-                
                 document.getElementById('up-p').innerText = d.gap.gapUpProb + "%";
                 document.getElementById('up-bar').style.width = d.gap.gapUpProb + "%";
-                
                 document.getElementById('down-p').innerText = d.gap.gapDownProb + "%";
                 document.getElementById('down-bar').style.width = d.gap.gapDownProb + "%";
 
@@ -251,31 +335,5 @@
                                 <span class="opt-strike">Strike: ${o.strike}</span>
                                 <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
                             </div>
-                            
                             <div class="opt-meta-row">
-                                <span>Prem: ₹${o.premium}</span>
-                                <span>SL: ₹${o.sl}</span>
-                                <span>Target: ₹${o.target}</span>
-                            </div>
-
-                            <!-- Speedometer for Target Progress -->
-                            <div style="font-size:0.6rem; color:var(--muted); display:flex; justify-content:space-between;">
-                                <span>Entry</span>
-                                <span>Target</span>
-                            </div>
-                            <div class="mini-gauge-bg">
-                                <!-- Marker position simulates progress -->
-                                <div class="mini-gauge-marker" style="left: 40%;"></div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        fetchGlobal();
-        fetchSentiment();
-        fetchPredictor();
-    </script>
-</body>
-                                </html>
+                                <span>Prem: ₹${o.pre
