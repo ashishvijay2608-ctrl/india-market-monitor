@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>India Market Monitor | Pro</title>
+    <!-- App Install Link -->
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg: #0a0c10; --panel: #12161f; --border: #1f2533; --text: #e2e8f0;
@@ -34,7 +36,6 @@
         .sparkline { width: 100%; height: 100%; }
         .c-meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); }
 
-        /* Upper Gauge */
         .gauge-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; }
         .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -82,7 +83,6 @@
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
 
-        /* Options */
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -100,7 +100,6 @@
         .lot-input { display: flex; align-items: center; gap: 5px; }
         .lot-input input { width: 40px; background: var(--bg); border: 1px solid var(--border); color: #fff; text-align: center; border-radius: 4px; padding: 2px;}
 
-        /* Premium Gauge */
         .prem-gauge-container { position: relative; width: 120px; height: 60px; margin: 15px auto 0; overflow: hidden; }
         .prem-gauge-bg { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
         .prem-gauge-inner { width: 90px; height: 90px; border-radius: 50%; background: var(--bg); position: absolute; top: 15px; left: 15px; }
@@ -109,12 +108,10 @@
         .prem-gauge-pivot { position: absolute; bottom: -4px; left: -4px; width: 11px; height: 11px; background: #fff; border-radius: 50%; z-index: 11; border: 1px solid var(--bg); }
         .prem-labels { display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--muted); margin-top: 2px; padding: 0 10px;}
 
-        /* Charts */
         .chart-container { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; }
         .chart-title { padding: 10px 15px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between;}
         .chart-frame { width: 100%; height: 300px; border: none; display: block; }
 
-        /* News */
         .news-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
         .news-item { border-bottom: 1px solid var(--border); padding: 10px 0; }
         .news-item:last-child { border-bottom: none; padding-bottom: 0;}
@@ -130,7 +127,6 @@
         <div class="time" id="current-time">Loading...</div>
     </div>
 
-    <!-- TOP INDICES -->
     <div class="grid-2">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header"><div><div class="c-name">NIFTY 50</div><div class="c-region">NSE spot</div></div><div class="c-status">CLOSED</div></div>
@@ -154,7 +150,6 @@
         </div>
     </div>
 
-    <!-- UPPER SENTIMENT GAUGE -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
@@ -174,7 +169,6 @@
         </div>
     </div>
 
-    <!-- FII/DII ACTIVITY -->
     <div class="fiidii-card">
         <div class="fiidii-header"><span>FII / DII ACTIVITY</span><span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span></div>
         <div class="bar-chart-container">
@@ -195,10 +189,8 @@
         </table>
     </div>
 
-    <!-- GLOBAL MARKETS -->
     <div class="grid-2" id="global-grid"></div>
 
-    <!-- LIVE CHARTS -->
     <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LIVE CHARTS</div>
     <div class="chart-container">
         <div class="chart-title"><span>NIFTY 50 Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div>
@@ -209,7 +201,6 @@
         <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
     </div>
 
-    <!-- GAP PREDICTOR -->
     <div class="pred-card">
         <div class="pred-header">Next-Day Gap Predictor</div>
         <div class="gap-main text-red" id="gap-dir">GAP DOWN</div>
@@ -220,13 +211,11 @@
         <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
     </div>
 
-    <!-- HIGH PROB OPTIONS WITH SPEEDOMETER & CALCULATOR -->
     <div class="pred-card">
         <div class="pred-header">High-Probability Options</div>
         <div class="opt-list" id="options-list"></div>
     </div>
 
-    <!-- LATEST MARKET NEWS -->
     <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LATEST MARKET NEWS</div>
     <div class="news-card" id="news-container">
         <div style="color: var(--muted); font-size: 0.8rem;">Loading live news...</div>
@@ -234,6 +223,18 @@
 
     <script>
         const API_BASE = "https://india-market-api.ashishvijay2608.workers.dev/api";
+
+        // Register Service Worker for Notifications
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+        }
+
+        // Request Notification Permission on Load
+        if ("Notification" in window) {
+            if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        }
 
         setInterval(() => {
             document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST";
@@ -281,10 +282,7 @@
                 const d = json.data;
                 document.getElementById('score-val').innerText = d.score;
                 document.getElementById('status-val').innerText = d.status;
-                
-                // Fix upper needle rotation
-                let rotation = (d.score / 100) * 90; 
-                                const breakdownDiv = document.getElementById('breakdown-list');
+                const breakdownDiv = document.getElementById('breakdown-list');
                 breakdownDiv.innerHTML = '';
                 d.triggers.forEach(t => {
                     const isDrag = t.type === 'drag';
@@ -326,6 +324,7 @@
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
                     
+                    // Real-time calculation for speedometer
                     let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
                     if (progress < 0) progress = 0;
                     if (progress > 100) progress = 100;
@@ -347,7 +346,7 @@
                             <div class="prem-gauge-container">
                                 <div class="prem-gauge-bg"></div>
                                 <div class="prem-gauge-inner"></div>
-                                <div class="prem-gauge-needle-wrapper" style="transform: rotate(${rotation}deg);">
+                                <div class="prem-gauge-needle-wrapper" id="needle-wrapper-${index}" style="transform: rotate(${rotation}deg);">
                                     <div class="prem-gauge-needle"></div>
                                     <div class="prem-gauge-pivot"></div>
                                 </div>
@@ -372,6 +371,9 @@
                         </div>
                     `;
                     setTimeout(() => calcPnL(index, o.premium, o.sl, o.target, 50), 0);
+                    
+                    // Notification Logic
+                    checkTarget(o.premium, o.target, o.type);
                 });
             }
         }
@@ -385,8 +387,26 @@
             document.getElementById(`reward-${index}`).innerText = `₹${reward.toFixed(2)}`;
         }
 
+        // Notification Function
+        let alertsSent = {}; 
+        function checkTarget(current, target, type) {
+            if (current >= target && !alertsSent[type]) {
+                alertsSent[type] = true;
+                if (Notification.permission === "granted") {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("🎯 Target Reached!", {
+                            body: `${type} Option hit the target price of ₹${target}!`,
+                            icon: "https://cdn-icons-png.flaticon.com/512/2933/2933251.png",
+                            vibrate: [200, 100, 200]
+                        });
+                    });
+                }
+            }
+        }
+
         async function fetchNews() {
             try {
+                // Reliable RSS to JSON API
                 const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
                 const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
                 const data = await res.json();
