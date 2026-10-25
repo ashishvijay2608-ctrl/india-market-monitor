@@ -56,7 +56,6 @@
         .fiidii-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
         .fiidii-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 15px; color: var(--text); font-weight: 600;}
         
-        /* FIXED BAR CHART */
         .bar-chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 100px; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
         .bar-group { flex: 1; display: flex; justify-content: center; gap: 2px; height: 100%; align-items: flex-end; position: relative;}
         .bar { width: 8px; border-radius: 2px 2px 0 0; }
@@ -324,4 +323,25 @@
                                 <span>SL: ₹${o.sl}</span>
                                 <span>Target: ₹${o.target}</span>
                             </div>
-                            
+                                                <div class="mini-gauge-container">
+                        <div class="mini-gauge-bg">
+                            <div class="mini-gauge-marker" style="left: 40%;"></div>
+                        </div>
+                        <div class="mini-labels">
+                            <span>SL</span>
+                            <span>Entry</span>
+                            <span>Target</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+        }
+    }
+
+    fetchGlobal();
+    fetchSentiment();
+    fetchPredictor();
+</script>
+</body>
+</html>
