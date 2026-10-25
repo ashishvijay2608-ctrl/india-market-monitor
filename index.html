@@ -77,6 +77,7 @@
         .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
 
+        /* Options & Calculator */
         .opt-list { display: flex; flex-direction: column; gap: 10px; }
         .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
         .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
@@ -85,13 +86,27 @@
         .type-ce { background: rgba(16, 185, 129, 0.2); color: var(--green); }
         .opt-strike { font-size: 1rem; font-weight: 700; flex-grow: 1; margin-left: 10px;}
         .opt-prob { font-size: 1rem; font-weight: 700; color: var(--blue); }
+        
         .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
         .opt-meta-row span { color: #fff; font-weight: 600;}
         
-        .mini-gauge-container { position: relative; width: 100%; height: 25px; margin-top: 10px; overflow: hidden; }
-        .mini-gauge-bg { width: 100%; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow) 30%, var(--green)); border-radius: 4px; position: relative; top: 8px;}
-        .mini-gauge-marker { width: 3px; height: 20px; background: white; position: absolute; top: 2px; border-radius: 2px; box-shadow: 0 0 3px #000; transform: translateX(-50%); transition: left 0.5s;}
-        .mini-labels { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); margin-top: 2px;}
+        .lot-calc { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-top: 10px; font-size: 0.75rem;}
+        .lot-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .lot-input { display: flex; align-items: center; gap: 5px; }
+        .lot-input input { width: 40px; background: var(--bg); border: 1px solid var(--border); color: #fff; text-align: center; border-radius: 4px; padding: 2px;}
+
+        /* Charts */
+        .chart-container { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; }
+        .chart-title { padding: 10px 15px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between;}
+        .chart-frame { width: 100%; height: 300px; border: none; display: block; }
+
+        /* News */
+        .news-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .news-item { border-bottom: 1px solid var(--border); padding: 10px 0; }
+        .news-item:last-child { border-bottom: none; padding-bottom: 0;}
+        .news-title { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 5px; text-decoration: none; display: block; }
+        .news-title:hover { color: var(--blue); }
+        .news-meta { font-size: 0.7rem; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -101,32 +116,43 @@
         <div class="time" id="current-time">Loading...</div>
     </div>
 
-    <div class="grid-2" style="margin-bottom: 20px;">
+    <!-- TOP INDICES -->
+    <div class="grid-2">
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
-                <div>
-                    <div class="c-name">NIFTY 50</div>
-                    <div class="c-region">NSE spot</div>
-                </div>
+                <div><div class="c-name">NIFTY 50</div><div class="c-region">NSE spot</div></div>
                 <div class="c-status">CLOSED</div>
             </div>
             <div class="c-price">22,150.20</div>
             <div class="c-change text-red">▼ -87.65 (-0.39%)</div>
         </div>
-
         <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
             <div class="c-header">
-                <div>
-                    <div class="c-name">GIFT NIFTY</div>
-                    <div class="c-region">NSE IX futures</div>
-                </div>
+                <div><div class="c-name">GIFT NIFTY</div><div class="c-region">NSE IX futures</div></div>
                 <div class="c-status">CLOSED</div>
             </div>
             <div class="c-price">22,535.5</div>
             <div class="c-change text-red">▼ -72.5 (-0.32%)</div>
         </div>
+        <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
+            <div class="c-header">
+                <div><div class="c-name">SENSEX</div><div class="c-region">BSE Index</div></div>
+                <div class="c-status">CLOSED</div>
+            </div>
+            <div class="c-price">73,125.40</div>
+            <div class="c-change text-red">▼ -210.50 (-0.29%)</div>
+        </div>
+        <div class="card" style="border-color: var(--border); background: linear-gradient(180deg, var(--panel) 0%, #0f131a 100%);">
+            <div class="c-header">
+                <div><div class="c-name">BANK NIFTY</div><div class="c-region">NSE Bank Index</div></div>
+                <div class="c-status">CLOSED</div>
+            </div>
+            <div class="c-price">48,150.60</div>
+            <div class="c-change text-red">▼ -150.20 (-0.31%)</div>
+        </div>
     </div>
 
+    <!-- SENTIMENT GAUGE -->
     <div class="gauge-card">
         <div class="gauge-title">Bearish Sentiment Gauge</div>
         <div class="gauge-container">
@@ -138,20 +164,14 @@
         <div class="status-text text-red" id="status-val">Mildly bearish</div>
         
         <div class="score-section">
-            <div class="score-title">
-                <span>Score Breakdown</span>
-                <span>How each input moves the gauge</span>
-            </div>
+            <div class="score-title"><span>Score Breakdown</span><span>How each input moves the gauge</span></div>
             <div id="breakdown-list"></div>
         </div>
     </div>
 
+    <!-- FII/DII ACTIVITY -->
     <div class="fiidii-card">
-        <div class="fiidii-header">
-            <span>FII / DII ACTIVITY</span>
-            <span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span>
-        </div>
-        
+        <div class="fiidii-header"><span>FII / DII ACTIVITY</span><span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span></div>
         <div class="bar-chart-container">
             <div class="bar-center-line"></div>
             <div class="bar-group"><div class="bar bar-fii" style="height: 80%;"></div><div class="bar bar-dii" style="height: 20%;"></div></div>
@@ -163,38 +183,50 @@
             <div class="bar-group"><div class="bar bar-fii" style="height: 20%;"></div><div class="bar bar-dii" style="height: 80%;"></div></div>
             <div class="bar-group"><div class="bar bar-fii" style="height: 40%;"></div><div class="bar bar-dii" style="height: 60%;"></div></div>
         </div>
-
         <div class="score-title" style="margin-bottom:10px;">Flow Summary <span>As of 23 Oct 2026</span></div>
         <table class="flow-table">
-            <thead>
-                <tr>
-                    <th>Window</th>
-                    <th>FII net</th>
-                    <th>DII net</th>
-                    <th>Combined</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Window</th><th>FII net</th><th>DII net</th><th>Combined</th></tr></thead>
             <tbody id="fiidii-table-body"></tbody>
         </table>
     </div>
 
+    <!-- GLOBAL MARKETS -->
     <div class="grid-2" id="global-grid"></div>
 
+    <!-- LIVE CHARTS -->
+    <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LIVE CHARTS</div>
+    
+    <div class="chart-container">
+        <div class="chart-title"><span>NIFTY 50 Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div>
+        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title"><span>SENSEX Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div>
+        <iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true"></iframe>
+    </div>
+
+    <!-- GAP PREDICTOR -->
     <div class="pred-card">
         <div class="pred-header">Next-Day Gap Predictor</div>
         <div class="gap-main text-red" id="gap-dir">GAP DOWN</div>
         <div class="gap-sub text-red" id="gap-sub">▼ -72 pts (-0.32%)</div>
-        
         <div class="prob-row"><span>Gap Up</span> <span id="up-p">15%</span></div>
         <div class="bar-bg"><div class="bar-fill" style="background: var(--green); width: 15%;" id="up-bar"></div></div>
-        
         <div class="prob-row"><span>Gap Down</span> <span id="down-p">75%</span></div>
         <div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
     </div>
 
+    <!-- HIGH PROB OPTIONS WITH CALCULATOR -->
     <div class="pred-card">
-        <div class="pred-header">High-Probability Options</div>
+        <div class="pred-header">High-Probability Options & Lot Calculator</div>
         <div class="opt-list" id="options-list"></div>
+    </div>
+
+    <!-- LATEST MARKET NEWS -->
+    <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LATEST MARKET NEWS</div>
+    <div class="news-card" id="news-container">
+        <div style="color: var(--muted); font-size: 0.8rem;">Loading live news...</div>
     </div>
 
     <script>
@@ -212,9 +244,7 @@
                 if (y < 5) y = 5; if (y > 35) y = 35;
                 points.push(`${i * 10},${y}`);
             }
-            return `<svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
-                        <polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>`;
+            return `<svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
         }
 
         async function fetchGlobal() {
@@ -224,30 +254,20 @@
                 const grid = document.getElementById('global-grid');
                 grid.innerHTML = '';
                 json.data.forEach(d => {
-                    if(d.name === "GIFT Nifty") return;
-                    
+                    if(d.name === "GIFT Nifty") return; 
                     const colorClass = d.trend === 'up' ? 'text-green' : 'text-red';
                     const icon = d.trend === 'up' ? '▲' : '▼';
                     const chartColor = d.trend === 'up' ? 'var(--green)' : 'var(--red)';
-                    
                     grid.innerHTML += `
                         <div class="card">
                             <div class="c-header">
-                                <div>
-                                    <div class="c-name">${d.name}</div>
-                                    <div class="c-region">${d.region}</div>
-                                </div>
+                                <div><div class="c-name">${d.name}</div><div class="c-region">${d.region}</div></div>
                                 <div class="c-status">CLOSED</div>
                             </div>
                             <div class="c-price">${d.price}</div>
                             <div class="c-change ${colorClass}">${icon} ${d.change}</div>
-                            <div class="sparkline-container">
-                                ${generateSparkline(chartColor)}
-                            </div>
-                            <div class="c-meta">
-                                <span>5d ${d.change}</span>
-                                <span>2d ago</span>
-                            </div>
+                            <div class="sparkline-container">${generateSparkline(chartColor)}</div>
+                            <div class="c-meta"><span>5d ${d.change}</span><span>2d ago</span></div>
                         </div>
                     `;
                 });
@@ -270,15 +290,9 @@
                     const color = isDrag ? 'var(--red)' : 'var(--green)';
                     breakdownDiv.innerHTML += `
                         <div class="factor-row">
-                            <div class="factor-header">
-                                <span>${t.name}</span>
-                                <span style="color: ${color};">${t.value}</span>
-                            </div>
+                            <div class="factor-header"><span>${t.name}</span><span style="color: ${color};">${t.value}</span></div>
                             <div style="font-size:0.65rem; color:var(--muted); margin-bottom:2px;">Weight ${t.weight}</div>
-                            <div class="factor-bar-bg">
-                                <div class="factor-bar-center"></div>
-                                <div class="factor-dot" style="left: ${t.pos}%; background: ${color};"></div>
-                            </div>
+                            <div class="factor-bar-bg"><div class="factor-bar-center"></div><div class="factor-dot" style="left: ${t.pos}%; background: ${color};"></div></div>
                         </div>
                     `;
                 });
@@ -293,6 +307,7 @@
             }
         }
 
+        // Options with Lot Calculator Logic
         async function fetchPredictor() {
             const res = await fetch(`${API_BASE}/predictor`);
             const json = await res.json();
@@ -307,10 +322,11 @@
 
                 const optList = document.getElementById('options-list');
                 optList.innerHTML = '';
-                d.options.forEach(o => {
+                d.options.forEach((o, index) => {
                     const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
                     const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
-                    
+                    const lotSize = 50; // Standard NIFTY lot size
+
                     optList.innerHTML += `
                         <div class="opt-item">
                             <div class="opt-top">
@@ -323,25 +339,69 @@
                                 <span>SL: ₹${o.sl}</span>
                                 <span>Target: ₹${o.target}</span>
                             </div>
-                                                <div class="mini-gauge-container">
-                        <div class="mini-gauge-bg">
-                            <div class="mini-gauge-marker" style="left: 40%;"></div>
+                            
+                            <!-- Lot Calculator -->
+                            <div class="lot-calc">
+                                <div class="lot-row">
+                                    <span>Lot Size: <b>${lotSize}</b></span>
+                                    <div class="lot-input">
+                                        <span>Lots:</span>
+                                        <input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, ${lotSize})">
+                                    </div>
+                                </div>
+                                <div class="lot-row"><span>Risk (Max Loss):</span> <span id="risk-${index}" class="text-red">₹0</span></div>
+                                <div class="lot-row"><span>Reward (Profit):</span> <span id="reward-${index}" class="text-green">₹0</span></div>
+                            </div>
                         </div>
-                        <div class="mini-labels">
-                            <span>SL</span>
-                            <span>Entry</span>
-                            <span>Target</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            });
+                    `;
+                    // Initialize calculation
+                    setTimeout(() => calcPnL(index, o.premium, o.sl, o.target, lotSize), 0);
+                });
+            }
         }
-    }
 
-    fetchGlobal();
-    fetchSentiment();
-    fetchPredictor();
-</script>
+        // Calculator Logic Function
+        function calcPnL(index, entry, sl, target, lotSize) {
+            const lots = parseInt(document.getElementById(`lots-${index}`).value) || 1;
+            const qty = lotSize * lots;
+            const risk = (entry - sl) * qty;
+            const reward = (target - entry) * qty;
+            
+            document.getElementById(`risk-${index}`).innerText = `₹${risk.toFixed(2)}`;
+            document.getElementById(`reward-${index}`).innerText = `₹${reward.toFixed(2)}`;
+        }
+
+        // Fetch News
+        async function fetchNews() {
+            try {
+                const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
+                const data = await res.json();
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                
+                if(data.items && data.items.length > 0) {
+                    data.items.slice(0, 4).forEach(item => {
+                        const d = new Date(item.pubDate);
+                        const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
+                        container.innerHTML += `
+                            <div class="news-item">
+                                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
+                                <div class="news-meta">${timeStr} · Source: Google News</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available.</div>';
+                }
+            } catch(e) {
+                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news.</div>';
+            }
+        }
+
+        fetchGlobal();
+        fetchSentiment();
+        fetchPredictor();
+        fetchNews();
+    </script>
 </body>
 </html>
