@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Market Monitor | Pro</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root { --bg: #0a0c10; --panel: #12161f; --border: #1f2533; --text: #e2e8f0; --muted: #8b95a5; --green: #10b981; --red: #ef4444; --blue: #3b82f6; --yellow: #f59e0b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding: 15px; padding-bottom: 50px; background-image: linear-gradient(rgba(10,12,16,0.92), rgba(10,12,16,0.92)), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-attachment: fixed; background-position: center; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { font-size: 1.1rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .time { font-size: 0.75rem; color: var(--muted); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .card { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 15px; backdrop-filter: blur(5px); }
+        
+        .c-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .c-name { font-size: 0.85rem; font-weight: 600; }
+        .c-region { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; margin-top: 2px;}
+        .c-status { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .c-price { font-size: 1.4rem; font-weight: 700; margin-bottom: 5px; }
+        .c-change { font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;}
+        .text-green { color: var(--green); }
+        .text-red { color: var(--red); }
+        .text-muted { color: var(--muted); }
+
+        .sparkline-container { height: 40px; width: 100%; margin-top: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; margin-bottom: 5px;}
+        .sparkline { width: 100%; height: 100%; }
+        .c-meta { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--muted); }
+
+        .gauge-card { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; backdrop-filter: blur(5px); }
+        .gauge-title { font-size: 0.85rem; color: var(--muted); text-align: left; margin-bottom: 15px; text-transform: uppercase; }
+        .gauge-container { position: relative; width: 200px; height: 100px; margin: 0 auto; overflow: hidden; }
+        .gauge-bg { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
+        .gauge-inner { width: 160px; height: 160px; border-radius: 50%; background: var(--panel); position: absolute; top: 20px; left: 20px; }
+        .gauge-needle-wrapper { position: absolute; bottom: 0; left: 50%; width: 4px; height: 80px; transform-origin: bottom center; transition: transform 1s ease; z-index: 10; }
+        .gauge-needle { width: 100%; height: 100%; background: #fff; border-radius: 2px; }
+        .gauge-pivot { position: absolute; bottom: -6px; left: -6px; width: 16px; height: 16px; background: #fff; border-radius: 50%; z-index: 11; border: 2px solid var(--bg); }
+        .gauge-value { position: relative; z-index: 20; margin-top: 15px; font-size: 2rem; font-weight: 700; }
+        .status-text { font-size: 1rem; font-weight: 700; margin-top: 5px; }
+
+        .score-section { text-align: left; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .score-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between;}
+        .factor-row { margin-bottom: 12px; }
+        .factor-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px; }
+        .factor-weight { font-size: 0.7rem; color: var(--muted); }
+        .factor-bar-bg { width: 100%; height: 6px; background: var(--border); border-radius: 3px; position: relative; }
+        .factor-bar-center { position: absolute; left: 50%; top: 0; width: 1px; height: 6px; background: #555; }
+        .factor-dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: -1px; transform: translateX(-50%); }
+
+        .fiidii-card { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; backdrop-filter: blur(5px); }
+        .fiidii-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 15px; color: var(--text); font-weight: 600;}
+        .bar-chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 100px; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 5px; position: relative;}
+        .bar-group { flex: 1; display: flex; justify-content: center; gap: 2px; height: 100%; align-items: flex-end; position: relative;}
+        .bar { width: 8px; border-radius: 2px 2px 0 0; }
+        .bar-fii { background: var(--yellow); }
+        .bar-dii { background: var(--blue); }
+        .bar-center-line { position: absolute; width: 100%; height: 1px; background: var(--border); top: 50%; left: 0;}
+        .flow-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 15px; }
+        .flow-table th { text-align: left; color: var(--muted); font-weight: normal; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .flow-table td { padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .flow-table td:not(:first-child) { text-align: right; }
+        .flow-table th:not(:first-child) { text-align: right; }
+
+        .pred-card { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(5px); }
+        .pred-header { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display: flex; justify-content: space-between;}
+        .gap-main { font-size: 2rem; font-weight: 700; margin-bottom: 5px; }
+        .gap-sub { font-size: 0.9rem; margin-bottom: 15px; }
+        .prob-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600;}
+        .bar-bg { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 15px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
+        .opt-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-item { background: var(--bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border); }
+        .opt-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+        .opt-type { font-weight: 700; font-size: 0.8rem; padding: 3px 8px; border-radius: 4px; }
+        .type-pe { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .type-ce { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .opt-strike { font-size: 1rem; font-weight: 700; flex-grow: 1; margin-left: 10px;}
+        .opt-prob { font-size: 1rem; font-weight: 700; color: var(--blue); }
+        .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
+        .opt-meta-row span { color: #fff; font-weight: 600;}
+        .lot-calc { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-top: 10px; font-size: 0.75rem;}
+        .lot-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .lot-input { display: flex; align-items: center; gap: 5px; }
+        .lot-input input { width: 40px; background: var(--bg); border: 1px solid var(--border); color: #fff; text-align: center; border-radius: 4px; padding: 2px;}
+
+        .prem-gauge-container { position: relative; width: 120px; height: 60px; margin: 15px auto 0; overflow: hidden; }
+        .prem-gauge-bg { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(from 270deg, var(--red) 0%, var(--red) 20%, var(--yellow) 30%, var(--yellow) 40%, #2d3748 45%, #2d3748 55%, var(--green) 60%, var(--green) 80%, var(--green) 100%); position: absolute; top: 0; }
+        .prem-gauge-inner { width: 90px; height: 90px; border-radius: 50%; background: var(--bg); position: absolute; top: 15px; left: 15px; }
+        .prem-gauge-needle-wrapper { position: absolute; bottom: 0; left: 50%; width: 3px; height: 50px; transform-origin: bottom center; transition: transform 1s ease; z-index: 10; }
+        .prem-gauge-needle { width: 100%; height: 100%; background: #fff; border-radius: 2px; }
+        .prem-gauge-pivot { position: absolute; bottom: -4px; left: -4px; width: 11px; height: 11px; background: #fff; border-radius: 50%; z-index: 11; border: 1px solid var(--bg); }
+        .prem-labels { display: flex; justify-content: space-between; font-size: 0.55rem; color: var(--muted); margin-top: 2px; padding: 0 10px;}
+
+        .chart-container { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 0; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(5px); }
+        .chart-title { padding: 10px 15px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between;}
+        .chart-frame { width: 100%; height: 300px; border: none; display: block; }
+
+        .news-card { background: rgba(18, 22, 31, 0.95); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; backdrop-filter: blur(5px); }
+        .news-item { border-bottom: 1px solid var(--border); padding: 10px 0; }
+        .news-item:last-child { border-bottom: none; padding-bottom: 0;}
+        .news-title { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 5px; text-decoration: none; display: block; }
+        .news-title:hover { color: var(--blue); }
+        .news-meta { font-size: 0.7rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>India Market Monitor</h1>
+        <div class="time" id="current-time">Loading...</div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card"><div class="c-header"><div><div class="c-name">NIFTY 50</div><div class="c-region">NSE spot</div></div><div class="c-status">CLOSED</div></div><div class="c-price">22,150.20</div><div class="c-change text-red">▼ -87.65 (-0.39%)</div></div>
+        <div class="card"><div class="c-header"><div><div class="c-name">GIFT NIFTY</div><div class="c-region">NSE IX futures</div></div><div class="c-status">CLOSED</div></div><div class="c-price">22,535.5</div><div class="c-change text-red">▼ -72.5 (-0.32%)</div></div>
+        <div class="card"><div class="c-header"><div><div class="c-name">SENSEX</div><div class="c-region">BSE Index</div></div><div class="c-status">CLOSED</div></div><div class="c-price">73,125.40</div><div class="c-change text-red">▼ -210.50 (-0.29%)</div></div>
+        <div class="card"><div class="c-header"><div><div class="c-name">BANK NIFTY</div><div class="c-region">NSE Bank Index</div></div><div class="c-status">CLOSED</div></div><div class="c-price">48,150.60</div><div class="c-change text-red">▼ -150.20 (-0.31%)</div></div>
+    </div>
+
+    <div class="gauge-card">
+        <div class="gauge-title">Bearish Sentiment Gauge</div>
+        <div class="gauge-container"><div class="gauge-bg"></div><div class="gauge-inner"></div><div class="gauge-needle-wrapper" id="upper-needle-wrapper"><div class="gauge-needle"></div><div class="gauge-pivot"></div></div></div>
+        <div class="gauge-value" id="score-val">-11.5</div>
+        <div class="status-text text-red" id="status-val">Mildly bearish</div>
+        <div class="score-section"><div class="score-title"><span>Score Breakdown</span><span>How each input moves the gauge</span></div><div id="breakdown-list"></div></div>
+    </div>
+
+    <div class="fiidii-card">
+        <div class="fiidii-header"><span>FII / DII ACTIVITY</span><span style="color:var(--muted); font-weight:normal;">NSE provisional cash market, ₹ crore</span></div>
+        <div class="bar-chart-container">
+            <div class="bar-center-line"></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 80%;"></div><div class="bar bar-dii" style="height: 20%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 60%;"></div><div class="bar bar-dii" style="height: 40%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 30%;"></div><div class="bar bar-dii" style="height: 70%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 50%;"></div><div class="bar bar-dii" style="height: 50%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 90%;"></div><div class="bar bar-dii" style="height: 10%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 70%;"></div><div class="bar bar-dii" style="height: 30%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 20%;"></div><div class="bar bar-dii" style="height: 80%;"></div></div>
+            <div class="bar-group"><div class="bar bar-fii" style="height: 40%;"></div><div class="bar bar-dii" style="height: 60%;"></div></div>
+        </div>
+        <div class="score-title" style="margin-bottom:10px;">Flow Summary <span>As of 23 Oct 2026</span></div>
+        <table class="flow-table"><thead><tr><th>Window</th><th>FII net</th><th>DII net</th><th>Combined</th></tr></thead><tbody id="fiidii-table-body"></tbody></table>
+    </div>
+
+    <div class="grid-2" id="global-grid"></div>
+
+    <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LIVE CHARTS</div>
+    <div class="chart-container"><div class="chart-title"><span>NIFTY 50 Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div><iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true&tvwidgetsymbol=NSE%3ANIFTY"></iframe></div>
+    <div class="chart-container"><div class="chart-title"><span>SENSEX Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div><iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true&tvwidgetsymbol=BSE%3ASENSEX"></iframe></div>
+
+    <div class="pred-card">
+        <div class="pred-header">Next-Day Gap Predictor</div>
+        <div class="gap-main text-red" id="gap-dir">GAP DOWN</div>
+        <div class="gap-sub text-red" id="gap-sub">▼ -72 pts (-0.32%)</div>
+        <div class="prob-row"><span>Gap Up</span> <span id="up-p">15%</span></div><div class="bar-bg"><div class="bar-fill" style="background: var(--green); width: 15%;" id="up-bar"></div></div>
+        <div class="prob-row"><span>Gap Down</span> <span id="down-p">75%</span></div><div class="bar-bg"><div class="bar-fill" style="background: var(--red); width: 75%;" id="down-bar"></div></div>
+    </div>
+
+    <div class="pred-card">
+        <div class="pred-header">High-Probability Options</div>
+        <div class="opt-list" id="options-list"></div>
+    </div>
+
+    <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LATEST MARKET NEWS</div>
+    <div class="news-card" id="news-container"><div style="color: var(--muted); font-size: 0.8rem;">Loading live news...</div></div>
+
+    <script>
+        const API_BASE = "https://india-market-api.ashishvijay2608.workers.dev/api";
+
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err)); }
+        if ("Notification" in window) { if (Notification.permission !== "granted" && Notification.permission !== "denied") { Notification.requestPermission(); } }
+
+        setInterval(() => { document.getElementById('current-time').innerText = new Date().toLocaleTimeString() + " IST"; }, 1000);
+
+        function generateSparkline(color) {
+            const points = []; let y = 20;
+            for (let i = 0; i <= 10; i++) { y += (Math.random() - 0.5) * 15; if (y < 5) y = 5; if (y > 35) y = 35; points.push(`${i * 10},${y}`); }
+            return `<svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        }
+
+        async function fetchGlobal() {
+            const res = await fetch(`${API_BASE}/global`); const json = await res.json();
+            if(json.success) {
+                const grid = document.getElementById('global-grid'); grid.innerHTML = '';
+                json.data.forEach(d => {
+                    if(d.name === "GIFT Nifty") return; 
+                    const colorClass = d.trend === 'up' ? 'text-green' : 'text-red';
+                    const icon = d.trend === 'up' ? '▲' : '▼';
+                    const chartColor = d.trend === 'up' ? 'var(--green)' : 'var(--red)';
+                    grid.innerHTML += `<div class="card"><div class="c-header"><div><div class="c-name">${d.name}</div><div class="c-region">${d.region}</div></div><div class="c-status">CLOSED</div></div><div class="c-price">${d.price}</div><div class="c-change ${colorClass}">${icon} ${d.change}</div><div class="sparkline-container">${generateSparkline(chartColor)}</div><div class="c-meta"><span>5d ${d.change}</span><span>2d ago</span></div></div>`;
+                });
+            }
+        }
+
+        async function fetchSentiment() {
+            const res = await fetch(`${API_BASE}/sentiment`); const json = await res.json();
+            if(json.success) {
+                const d = json.data;
+                document.getElementById('score-val').innerText = d.score;
+                document.getElementById('status-val').innerText = d.status;
+                document.getElementById('upper-needle-wrapper').style.transform = `rotate(${(d.score / 100) * 90}deg)`;
+
+                const breakdownDiv = document.getElementById('breakdown-list'); breakdownDiv.innerHTML = '';
+                d.triggers.forEach(t => {
+                    const isDrag = t.type === 'drag'; const color = isDrag ? 'var(--red)' : 'var(--green)';
+                    breakdownDiv.innerHTML += `<div class="factor-row"><div class="factor-header"><span>${t.name}</span><span style="color: ${color};">${t.value}</span></div><div style="font-size:0.65rem; color:var(--muted); margin-bottom:2px;">Weight ${t.weight}</div><div class="factor-bar-bg"><div class="factor-bar-center"></div><div class="factor-dot" style="left: ${t.pos}%; background: ${color};"></div></div></div>`;
+                });
+
+                const tbody = document.getElementById('fiidii-table-body');
+                          `
+                    <tr><td>Latest session</td><td class="text-green">${d.fiidii.latest.fii}</td><td class="text-green">${d.fiidii.latest.dii}</td><td class="text-green">${d.fiidii.latest.combined}</td></tr>
+                    <tr><td>5 sessions</td><td class="text-red">${d.fiidii.s5.fii}</td><td class="text-green">${d.fiidii.s5.dii}</td><td class="text-green">${d.fiidii.s5.combined}</td></tr>
+                    <tr><td>10 sessions</td><td class="text-red">${d.fiidii.s10.fii}</td><td class="text-green">${d.fiidii.s10.dii}</td><td class="text-green">${d.fiidii.s10.combined}</td></tr>
+                    <tr><td>20 sessions</td><td class="text-red">${d.fiidii.s20.fii}</td><td class="text-green">${d.fiidii.s20.dii}</td><td class="text-green">${d.fiidii.s20.combined}</td></tr>
+                `;
+            }
+        }
+
+        async function fetchPredictor() {
+            const res = await fetch(`${API_BASE}/predictor`);
+            const json = await res.json();
+            if(json.success) {
+                const d = json.data;
+                document.getElementById('gap-dir').innerText = d.gap.direction;
+                document.getElementById('gap-sub').innerText = `▼ ${d.gap.points} (${d.gap.percent})`;
+                document.getElementById('up-p').innerText = d.gap.gapUpProb + "%";
+                document.getElementById('up-bar').style.width = d.gap.gapUpProb + "%";
+                document.getElementById('down-p').innerText = d.gap.gapDownProb + "%";
+                document.getElementById('down-bar').style.width = d.gap.gapDownProb + "%";
+
+                const optList = document.getElementById('options-list');
+                optList.innerHTML = '';
+                d.options.forEach((o, index) => {
+                    const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
+                    const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
+                    
+                    let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
+                    if (progress < 0) progress = 0;
+                    if (progress > 100) progress = 100;
+                    let rotation = (progress / 100) * 180 - 90; 
+
+                    optList.innerHTML += `
+                        <div class="opt-item">
+                            <div class="opt-top">
+                                <span class="opt-type ${typeClass}">${o.type}</span>
+                                <span class="opt-strike">Strike: ${o.strike}</span>
+                                <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
+                            </div>
+                            <div class="opt-meta-row">
+                                <span>Prem: ₹${o.premium}</span>
+                                <span>SL: ₹${o.sl}</span>
+                                <span>Target: ₹${o.target}</span>
+                            </div>
+
+                            <div class="prem-gauge-container">
+                                <div class="prem-gauge-bg"></div>
+                                <div class="prem-gauge-inner"></div>
+                                <div class="prem-gauge-needle-wrapper" id="needle-wrapper-${index}" style="transform: rotate(${rotation}deg);">
+                                    <div class="prem-gauge-needle"></div>
+                                    <div class="prem-gauge-pivot"></div>
+                                </div>
+                            </div>
+                            <div class="prem-labels">
+                                <span>SL</span>
+                                <span>Entry</span>
+                                <span>Target</span>
+                            </div>
+
+                            <div class="lot-calc">
+                                <div class="lot-row">
+                                    <span>Lot Size: <b>50</b></span>
+                                    <div class="lot-input">
+                                        <span>Lots:</span>
+                                        <input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, 50)">
+                                    </div>
+                                </div>
+                                <div class="lot-row"><span>Risk (Max Loss):</span> <span id="risk-${index}" class="text-red">₹0</span></div>
+                                <div class="lot-row"><span>Reward (Profit):</span> <span id="reward-${index}" class="text-green">₹0</span></div>
+                            </div>
+                        </div>
+                    `;
+                    setTimeout(() => calcPnL(index, o.premium, o.sl, o.target, 50), 0);
+                    checkTarget(o.premium, o.target, o.type);
+                });
+            }
+        }
+
+        function calcPnL(index, entry, sl, target, lotSize) {
+            const lots = parseInt(document.getElementById(`lots-${index}`).value) || 1;
+            const qty = lotSize * lots;
+            const risk = (entry - sl) * qty;
+            const reward = (target - entry) * qty;
+            document.getElementById(`risk-${index}`).innerText = `₹${risk.toFixed(2)}`;
+            document.getElementById(`reward-${index}`).innerText = `₹${reward.toFixed(2)}`;
+        }
+
+        let alertsSent = {}; 
+        function checkTarget(current, target, type) {
+            if (current >= target && !alertsSent[type]) {
+                alertsSent[type] = true;
+                if (Notification.permission === "granted") {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification("🎯 Target Reached!", {
+                            body: `${type} Option hit the target price of ₹${target}!`,
+                            icon: "https://cdn-icons-png.flaticon.com/512/2933/2933251.png",
+                            vibrate: [200, 100, 200]
+                        });
+                    });
+                }
+            }
+        }
+
+        async function fetchNews() {
+            try {
+                const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+                const data = await res.json();
+                
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                
+                if(data.status === 'ok' && data.items.length > 0) {
+                    data.items.slice(0, 5).forEach(item => {
+                        const d = new Date(item.pubDate);
+                        const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
+                        
+                        container.innerHTML += `
+                            <div class="news-item">
+                                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
+                                <div class="news-meta">${timeStr} · Source: Google News</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available right now.</div>';
+                }
+            } catch(e) {
+                document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news. Please try again later.</div>';
+            }
+        }
+
+        fetchGlobal();
+        fetchSentiment();
+        fetchPredictor();
+        fetchNews();
+    </script>
+</body>
+</html>
+              
