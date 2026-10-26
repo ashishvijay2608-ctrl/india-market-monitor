@@ -150,7 +150,7 @@
 
     <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LIVE CHARTS</div>
     <div class="chart-container"><div class="chart-title"><span>NIFTY 50 Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div><iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=NSE%3ANIFTY&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true&tvwidgetsymbol=NSE%3ANIFTY"></iframe></div>
-    <div class="chart-container"><div class="chart-title"><span>SENSEX Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div><iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=5&theme=dark&style=1&locale=en&hide_side_toolbar=true&tvwidgetsymbol=BSE%3ASENSEX"></iframe></div>
+    <div class="chart-container"><div class="chart-title"><span>SENSEX Live Chart</span><span style="color:var(--muted); font-size:0.7rem;">DELAYED</span></div><iframe class="chart-frame" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/widgetembed/?symbol=BSE%3ASENSEX&interval=1D&theme=dark&style=1&locale=en&hide_side_toolbar=true&tvwidgetsymbol=BSE%3ASENSEX"></iframe></div>
 
     <div class="pred-card">
         <div class="pred-header">Next-Day Gap Predictor</div>
@@ -167,8 +167,7 @@
 
     <div class="section-title" style="font-size: 1rem; font-weight: 600; margin: 20px 0 10px 0; color: #fff;">LATEST MARKET NEWS</div>
     <div class="news-card" id="news-container"><div style="color: var(--muted); font-size: 0.8rem;">Loading live news...</div></div>
-
-    <script>
+     <script>
         const API_BASE = "https://india-market-api.ashishvijay2608.workers.dev/api";
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err)); }
@@ -211,7 +210,7 @@
                 });
 
                 const tbody = document.getElementById('fiidii-table-body');
-                          `
+                tbody.innerHTML = `
                     <tr><td>Latest session</td><td class="text-green">${d.fiidii.latest.fii}</td><td class="text-green">${d.fiidii.latest.dii}</td><td class="text-green">${d.fiidii.latest.combined}</td></tr>
                     <tr><td>5 sessions</td><td class="text-red">${d.fiidii.s5.fii}</td><td class="text-green">${d.fiidii.s5.dii}</td><td class="text-green">${d.fiidii.s5.combined}</td></tr>
                     <tr><td>10 sessions</td><td class="text-red">${d.fiidii.s10.fii}</td><td class="text-green">${d.fiidii.s10.dii}</td><td class="text-green">${d.fiidii.s10.combined}</td></tr>
@@ -221,63 +220,28 @@
         }
 
         async function fetchPredictor() {
-            const res = await fetch(`${API_BASE}/predictor`);
-            const json = await res.json();
+            const res = await fetch(`${API_BASE}/predictor`); const json = await res.json();
             if(json.success) {
                 const d = json.data;
                 document.getElementById('gap-dir').innerText = d.gap.direction;
                 document.getElementById('gap-sub').innerText = `▼ ${d.gap.points} (${d.gap.percent})`;
-                document.getElementById('up-p').innerText = d.gap.gapUpProb + "%";
-                document.getElementById('up-bar').style.width = d.gap.gapUpProb + "%";
-                document.getElementById('down-p').innerText = d.gap.gapDownProb + "%";
-                document.getElementById('down-bar').style.width = d.gap.gapDownProb + "%";
+                document.getElementById('up-p').innerText = d.gap.gapUpProb + "%"; document.getElementById('up-bar').style.width = d.gap.gapUpProb + "%";
+                document.getElementById('down-p').innerText = d.gap.gapDownProb + "%"; document.getElementById('down-bar').style.width = d.gap.gapDownProb + "%";
 
-                const optList = document.getElementById('options-list');
-                optList.innerHTML = '';
+                const optList = document.getElementById('options-list'); optList.innerHTML = '';
                 d.options.forEach((o, index) => {
-                    const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce';
-                    const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
-                    
-                    let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100;
-                    if (progress < 0) progress = 0;
-                    if (progress > 100) progress = 100;
+                    const typeClass = o.type === 'PUT' ? 'type-pe' : 'type-ce'; const typeColor = o.type === 'PUT' ? 'var(--red)' : 'var(--green)';
+                    let progress = ((o.premium - o.sl) / (o.target - o.sl)) * 100; if (progress < 0) progress = 0; if (progress > 100) progress = 100;
                     let rotation = (progress / 100) * 180 - 90; 
 
                     optList.innerHTML += `
                         <div class="opt-item">
-                            <div class="opt-top">
-                                <span class="opt-type ${typeClass}">${o.type}</span>
-                                <span class="opt-strike">Strike: ${o.strike}</span>
-                                <span class="opt-prob" style="color: ${typeColor};">${o.prob}</span>
-                            </div>
-                            <div class="opt-meta-row">
-                                <span>Prem: ₹${o.premium}</span>
-                                <span>SL: ₹${o.sl}</span>
-                                <span>Target: ₹${o.target}</span>
-                            </div>
-
-                            <div class="prem-gauge-container">
-                                <div class="prem-gauge-bg"></div>
-                                <div class="prem-gauge-inner"></div>
-                                <div class="prem-gauge-needle-wrapper" id="needle-wrapper-${index}" style="transform: rotate(${rotation}deg);">
-                                    <div class="prem-gauge-needle"></div>
-                                    <div class="prem-gauge-pivot"></div>
-                                </div>
-                            </div>
-                            <div class="prem-labels">
-                                <span>SL</span>
-                                <span>Entry</span>
-                                <span>Target</span>
-                            </div>
-
+                            <div class="opt-top"><span class="opt-type ${typeClass}">${o.type}</span><span class="opt-strike">Strike: ${o.strike}</span><span class="opt-prob" style="color: ${typeColor};">${o.prob}</span></div>
+                            <div class="opt-meta-row"><span>Prem: ₹${o.premium}</span><span>SL: ₹${o.sl}</span><span>Target: ₹${o.target}</span></div>
+                            <div class="prem-gauge-container"><div class="prem-gauge-bg"></div><div class="prem-gauge-inner"></div><div class="prem-gauge-needle-wrapper" id="needle-wrapper-${index}" style="transform: rotate(${rotation}deg);"><div class="prem-gauge-needle"></div><div class="prem-gauge-pivot"></div></div></div>
+                            <div class="prem-labels"><span>SL</span><span>Entry</span><span>Target</span></div>
                             <div class="lot-calc">
-                                <div class="lot-row">
-                                    <span>Lot Size: <b>50</b></span>
-                                    <div class="lot-input">
-                                        <span>Lots:</span>
-                                        <input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, 50)">
-                                    </div>
-                                </div>
+                                <div class="lot-row"><span>Lot Size: <b>50</b></span><div class="lot-input"><span>Lots:</span><input type="number" id="lots-${index}" value="1" min="1" onchange="calcPnL(${index}, ${o.premium}, ${o.sl}, ${o.target}, 50)"></div></div>
                                 <div class="lot-row"><span>Risk (Max Loss):</span> <span id="risk-${index}" class="text-red">₹0</span></div>
                                 <div class="lot-row"><span>Reward (Profit):</span> <span id="reward-${index}" class="text-green">₹0</span></div>
                             </div>
@@ -291,9 +255,7 @@
 
         function calcPnL(index, entry, sl, target, lotSize) {
             const lots = parseInt(document.getElementById(`lots-${index}`).value) || 1;
-            const qty = lotSize * lots;
-            const risk = (entry - sl) * qty;
-            const reward = (target - entry) * qty;
+            const qty = lotSize * lots; const risk = (entry - sl) * qty; const reward = (target - entry) * qty;
             document.getElementById(`risk-${index}`).innerText = `₹${risk.toFixed(2)}`;
             document.getElementById(`reward-${index}`).innerText = `₹${reward.toFixed(2)}`;
         }
@@ -304,11 +266,7 @@
                 alertsSent[type] = true;
                 if (Notification.permission === "granted") {
                     navigator.serviceWorker.ready.then(registration => {
-                        registration.showNotification("🎯 Target Reached!", {
-                            body: `${type} Option hit the target price of ₹${target}!`,
-                            icon: "https://cdn-icons-png.flaticon.com/512/2933/2933251.png",
-                            vibrate: [200, 100, 200]
-                        });
+                        registration.showNotification("🎯 Target Reached!", { body: `${type} Option hit the target price of ₹${target}!`, icon: "https://cdn-icons-png.flaticon.com/512/2933/2933251.png", vibrate: [200, 100, 200] });
                     });
                 }
             }
@@ -316,24 +274,13 @@
 
         async function fetchNews() {
             try {
-                const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=nifty+market+india&hl=en-IN&gl=IN&ceid=IN:en');
-                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
-                const data = await res.json();
-                
-                const container = document.getElementById('news-container');
-                container.innerHTML = '';
-                
+                const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=indian+stock+market&hl=en-IN&gl=IN&ceid=IN:en');
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`); const data = await res.json();
+                const container = document.getElementById('news-container'); container.innerHTML = '';
                 if(data.status === 'ok' && data.items.length > 0) {
                     data.items.slice(0, 5).forEach(item => {
-                        const d = new Date(item.pubDate);
-                        const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
-                        
-                        container.innerHTML += `
-                            <div class="news-item">
-                                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
-                                <div class="news-meta">${timeStr} · Source: Google News</div>
-                            </div>
-                        `;
+                        const d = new Date(item.pubDate); const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
+                        container.innerHTML += `<div class="news-item"><a href="${item.link}" target="_blank" class="news-title">${item.title}</a><div class="news-meta">${timeStr} · Source: Google News</div></div>`;
                     });
                 } else {
                     container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available right now.</div>';
@@ -350,4 +297,3 @@
     </script>
 </body>
 </html>
-              
