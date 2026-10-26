@@ -71,7 +71,29 @@ export default {
         }
       }, { headers: corsHeaders });
     }
-
+// 4. News API
+if (url.pathname === "/api/news") {
+  try {
+    const rssUrl = 'https://news.google.com/rss/search?q=indian+stock+market&hl=en-IN&gl=IN&ceid=IN:en';
+    const response = await fetch(rssUrl);
+    const text = await response.text();
+    
+    const items = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+    while ((match = itemRegex.exec(text)) !== null) {
+      const itemContent = match[1];
+      const title = itemContent.match(/<title>(.*?)<\/title>/)?.[1] || '';
+      const link = itemContent.match(/<link>(.*?)<\/link>/)?.[1] || '';
+      const pubDate = itemContent.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || '';
+      if (title) items.push({ title, link, pubDate });
+    }
+    
+    return Response.json({ success: true, data: items.slice(0, 5) }, { headers: corsHeaders });
+  } catch(e) {
+    return Response.json({ success: false, error: e.message }, { headers: corsHeaders });
+  }
+}
     return new Response("API running", { headers: corsHeaders });
   }
 };
