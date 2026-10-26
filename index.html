@@ -273,39 +273,31 @@
         }
 async function fetchNews() {
     try {
-        const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=indian+stock+market&hl=en-IN&gl=IN&ceid=IN:en');
-        const res = await fetch(`https://api.allorigins.win/get?url=${rssUrl}`);
-        const rawData = await res.json();
-        
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(rawData.contents, "text/xml");
-        const items = xmlDoc.getElementsByTagName("item");
+        const res = await fetch(`${API_BASE}/news`);
+        const result = await res.json();
         
         const container = document.getElementById('news-container');
         container.innerHTML = '';
         
-        if(items.length > 0) {
-            for(let i = 0; i < Math.min(items.length, 5); i++) {
-                const title = items[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-                const link = items[i].getElementsByTagName("link")[0].childNodes[0].nodeValue;
-                const pubDate = items[i].getElementsByTagName("pubDate")[0].childNodes[0].nodeValue;
-                
-                const d = new Date(pubDate);
+        if(result.success && result.data.length > 0) {
+            result.data.forEach(item => {
+                const d = new Date(item.pubDate);
                 const timeStr = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + " | " + d.toLocaleDateString();
                 
                 container.innerHTML += `
                     <div class="news-item">
-                        <a href="${link}" target="_blank" class="news-title">${title}</a>
+                        <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
                         <div class="news-meta">${timeStr} · Source: Google News</div>
                     </div>
                 `;
-            }
+            });
         } else {
             container.innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">No news available right now.</div>';
         }
     } catch(e) {
         document.getElementById('news-container').innerHTML = '<div style="color: var(--muted); font-size: 0.8rem;">Failed to load news. Please try again later.</div>';
     }
+}
 }
         fetchGlobal();
         fetchSentiment();
