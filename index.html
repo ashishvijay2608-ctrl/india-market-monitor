@@ -274,7 +274,7 @@
 
         async function fetchNews() {
             try {
-                const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=indian+stock+market&hl=en-IN&gl=IN&ceid=IN:en');
+             const rssUrl = encodeURIComponent('https://feeds.feedburner.com/ndtvprofit-latest');
                 const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`); const data = await res.json();
                 const container = document.getElementById('news-container'); container.innerHTML = '';
                 if(data.status === 'ok' && data.items.length > 0) {
